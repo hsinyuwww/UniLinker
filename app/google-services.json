@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "824315759230",
+    "project_id": "numad24sp-group4unilink",
+    "storage_bucket": "numad24sp-group4unilink.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:824315759230:android:6e10b83b54fc7349cf662f",
+        "android_client_info": {
+          "package_name": "edu.northeastern.numad24sp_group4unilink"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAHTudPbtQSWlVsEu6E_ifF3n45tXG3I2A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
