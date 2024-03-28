@@ -15,11 +15,18 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class Register extends AppCompatActivity {
 
@@ -28,6 +35,7 @@ public class Register extends AppCompatActivity {
     private String email, password, fName, lName;
     private EditText emailText, passwordText, firstNameText, lastNameText;
     private ProgressBar progressBar;
+    private FirebaseFirestore userDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +44,7 @@ public class Register extends AppCompatActivity {
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+        userDB = FirebaseFirestore.getInstance();
 
         emailText = findViewById(R.id.editEmail);
         passwordText = findViewById(R.id.editPassword);
@@ -91,6 +100,7 @@ public class Register extends AppCompatActivity {
                                     progressBar.setVisibility(View.GONE);
                                     if (task.isSuccessful()) {
                                         User user = new User(email, password);
+                                        storeUserData();
                                         Log.d("Firebase", "createUserWithEmail:success");
                                         Toast.makeText(Register.this, "Registration is successful.", Toast.LENGTH_SHORT).show();
                                         login();
@@ -114,6 +124,27 @@ public class Register extends AppCompatActivity {
                                 }
                             });
 
+            }
+        });
+    }
+
+    private void storeUserData() {
+        Map<String, Object> user = new HashMap<>();
+        user.put("email", email);
+        user.put("password", password);
+        user.put("firstName", fName);
+        user.put("lastName", lName);
+        user.put("userID", mAuth.getCurrentUser().getUid());
+
+        userDB.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+            @Override
+            public void onSuccess(DocumentReference documentReference) {
+                Log.d("Firebase", "userAddedInDB:success" + documentReference.getId());
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.w("Firebase", "userAddedInDB:failure", e);
             }
         });
     }
