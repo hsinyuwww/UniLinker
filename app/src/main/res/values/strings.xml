@@ -10,4 +10,5 @@
     <string name="enter_lastname">Enter last name</string>
     <string name="login_here">Existing User?\nLogin here</string>
     <string name="enter_northeastern_email">Enter northeastern email</string>
+    <string name="login">Login</string>
 </resources>
