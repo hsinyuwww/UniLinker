@@ -3,6 +3,23 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="purple">#94673AB7</color>
-    <color name="pink">#FFFFFFFF</color>
+
     <color name="text_color">#ED673AB7</color>
+
+    <color name="appBackgroundColor">#EEF6FC</color>
+
+    <color name="primaryColor">#97CAED</color> <!-- Muted Purple -->
+    <color name="primaryDarkColor">#185D8B</color> <!-- Dark Muted Purple -->
+    <color name="onPrimaryColor">#000000</color> <!-- White -->
+
+    <!-- Secondary colors -->
+    <color name="secondaryColor">#63B0E3</color> <!-- Soft Lilac -->
+    <color name="secondaryDarkColor">#2280BF</color> <!-- Darker Soft Lilac -->
+    <color name="onSecondaryColor">#000000</color> <!-- White -->
+
+    <!-- Status bar color (optional, you can remove this if not needed) -->
+    <color name="statusBarColor">#0F3A57</color>
+    <color name="bottomNavigationColor">#0F3A57</color>
+    <color name="onBottomNavigationColor">#CBE5F6</color>
+
 </resources>
