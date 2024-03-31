@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">NUMAD24Sp_Group4UniLink</string>
+    <string name="app_name">UniLink</string>
     <string name="enter_your_northeastern_email">Enter your northeastern email</string>
     <string name="new_user">New User?\nRegister here</string>
     <string name="enter_password">Enter password</string>

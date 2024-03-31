@@ -3,11 +3,20 @@
     <style name="Base.Theme.NUMAD24Sp_Group4UniLink" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryVariant">@color/primaryDarkColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorOnPrimary">@color/onPrimaryColor</item>
         <item name="colorSecondary">@color/secondaryColor</item>
         <item name="colorSecondaryVariant">@color/secondaryDarkColor</item>
         <item name="colorOnSecondary">@color/onSecondaryColor</item>
+        <item name="android:actionBarStyle">@style/MyActionBar</item>
     </style>
+
+
+    <style name="MyActionBar" parent="@style/Widget.AppCompat.ActionBar.Solid">
+        <item name="logo">@drawable/logo</item>
+    </style>
+
+
 
     <style name="Theme.NUMAD24Sp_Group4UniLink" parent="Base.Theme.NUMAD24Sp_Group4UniLink" />
 </resources>
