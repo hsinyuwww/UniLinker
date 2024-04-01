@@ -1,11 +1,13 @@
 package edu.northeastern.numad24sp_group4unilink;
 
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -55,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 // Handle events action
                 openEvents();
             } else if (itemId == R.id.fab) {
-                // Handle add action
-                openAdd();
+                View menuItemView = findViewById(R.id.fab);
+                openAdd(menuItemView);
             } else if (itemId == R.id.groups) {
                 // Handle groups action
                 openGroups();
@@ -67,38 +69,40 @@ public class MainActivity extends AppCompatActivity {
             return true; // return true to indicate you've handled the selection
         });
 
-        FloatingActionButton fab = findViewById(R.id.addButon);
-        fab.setOnClickListener(view -> {
-            PopupMenu popup = new PopupMenu(MainActivity.this, view);
-            popup.getMenuInflater().inflate(R.menu.add_menu, popup.getMenu());
-
-            // Setting the onClick Listener for the menu items
-            popup.setOnMenuItemClickListener(item -> {
-
-                int itemId = item.getItemId();
-                if (itemId == R.id.addPost) {
-                    openHome();
-
-                } else if (itemId == R.id.addEvent) {
-                    // Handle events action
-                    openEvents();
-
-                } else if (itemId == R.id.addGroup) {
-                    // Handle add action
-                    openGroups();
-
-                }
-                return true;
-
-            });
-
-            // Showing the popup menu
-            popup.show();
-        });
 
 
 
     }
+
+    public void openAdd(View view){
+        PopupMenu popup = new PopupMenu(MainActivity.this, view);
+        popup.getMenuInflater().inflate(R.menu.add_menu, popup.getMenu());
+
+        // Setting the onClick Listener for the menu items
+        popup.setOnMenuItemClickListener(item -> {
+
+            int itemId = item.getItemId();
+            if (itemId == R.id.addPost) {
+                openHome();
+
+            } else if (itemId == R.id.addEvent) {
+                // Handle events action
+                openEvents();
+
+            } else if (itemId == R.id.addGroup) {
+                // Handle add action
+                openGroups();
+
+            }
+            return true;
+
+        });
+
+        // Showing the popup menu
+        popup.show();
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -112,10 +116,6 @@ public class MainActivity extends AppCompatActivity {
         int itemId = item.getItemId();
         if (itemId == R.id.messages) {
             Toast.makeText(MainActivity.this, "Messages", Toast.LENGTH_SHORT).show();
-
-        } else if (itemId == R.id.notifications) {
-
-            Toast.makeText(MainActivity.this, "Notifications", Toast.LENGTH_SHORT).show();
 
         } else if (itemId == R.id.logout) {
 
