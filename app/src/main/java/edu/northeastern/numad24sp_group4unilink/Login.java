@@ -1,9 +1,11 @@
 package edu.northeastern.numad24sp_group4unilink;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,6 +22,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Objects;
+
 
 public class Login extends AppCompatActivity {
     private FirebaseAuth mAuth;
@@ -31,6 +35,9 @@ public class Login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ActionBar actionBar = getSupportActionBar();
+        Objects.requireNonNull(actionBar).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primaryDarkColor)));
 
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
@@ -50,29 +57,30 @@ public class Login extends AppCompatActivity {
                 password = passwordText.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(Login.this, "Enter email.", Toast.LENGTH_SHORT).show();
-                } else{
-                    mAuth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in successful
-                                        progressBar.setVisibility(View.VISIBLE);
-                                        Log.d("Firebase", "signInWithEmail:success");
-                                        Toast.makeText(Login.this, "Sign in is successful.",
-                                                Toast.LENGTH_SHORT).show();
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        homepage();
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w("Firebase", "signInWithEmail:failure", task.getException());
-                                        Toast.makeText(Login.this, "Incorrect credentials.",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(Login.this, "Enter both email and password.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressBar.setVisibility(View.GONE);
+                                if (task.isSuccessful()) {
+                                    // Sign in successful
+                                    Log.d("Firebase", "signInWithEmail:success");
+                                    Toast.makeText(Login.this, "Sign in is successful.",
+                                            Toast.LENGTH_SHORT).show();
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    homepage();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w("Firebase", "signInWithEmail:failure", task.getException());
+                                    Toast.makeText(Login.this, "Incorrect credentials.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
 
@@ -85,17 +93,17 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        }
+    }
 
-        @Override
-        public void onStart() {
-            super.onStart();
-            // Check if user is signed in (non-null) and update UI accordingly.
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            if(currentUser != null){
-                homepage();
-            }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            homepage();
         }
+    }
 
     public void homepage() {
         Intent intent = new Intent(Login.this, MainActivity.class);
