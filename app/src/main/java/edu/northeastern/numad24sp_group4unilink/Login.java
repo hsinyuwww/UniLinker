@@ -57,29 +57,30 @@ public class Login extends AppCompatActivity {
                 password = passwordText.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
-                    Toast.makeText(Login.this, "Enter email.", Toast.LENGTH_SHORT).show();
-                } else{
-                    mAuth.signInWithEmailAndPassword(email, password)
-                            .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in successful
-                                        progressBar.setVisibility(View.VISIBLE);
-                                        Log.d("Firebase", "signInWithEmail:success");
-                                        Toast.makeText(Login.this, "Sign in is successful.",
-                                                Toast.LENGTH_SHORT).show();
-                                        FirebaseUser user = mAuth.getCurrentUser();
-                                        homepage();
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w("Firebase", "signInWithEmail:failure", task.getException());
-                                        Toast.makeText(Login.this, "Incorrect credentials.",
-                                                Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
+                    progressBar.setVisibility(View.GONE);
+                    Toast.makeText(Login.this, "Enter both email and password.", Toast.LENGTH_SHORT).show();
+                    return;
                 }
+                mAuth.signInWithEmailAndPassword(email, password)
+                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressBar.setVisibility(View.GONE);
+                                if (task.isSuccessful()) {
+                                    // Sign in successful
+                                    Log.d("Firebase", "signInWithEmail:success");
+                                    Toast.makeText(Login.this, "Sign in is successful.",
+                                            Toast.LENGTH_SHORT).show();
+                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    homepage();
+                                } else {
+                                    // If sign in fails, display a message to the user.
+                                    Log.w("Firebase", "signInWithEmail:failure", task.getException());
+                                    Toast.makeText(Login.this, "Incorrect credentials.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
             }
         });
 
@@ -92,17 +93,17 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        }
+    }
 
-        @Override
-        public void onStart() {
-            super.onStart();
-            // Check if user is signed in (non-null) and update UI accordingly.
-            FirebaseUser currentUser = mAuth.getCurrentUser();
-            if(currentUser != null){
-                homepage();
-            }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null){
+            homepage();
         }
+    }
 
     public void homepage() {
         Intent intent = new Intent(Login.this, MainActivity.class);
