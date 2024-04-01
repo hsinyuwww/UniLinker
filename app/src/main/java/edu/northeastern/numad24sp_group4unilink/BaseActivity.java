@@ -16,6 +16,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Objects;
 
@@ -108,34 +109,37 @@ public abstract class BaseActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item){
         int itemId = item.getItemId();
         if (itemId == R.id.messages) {
-            Intent intent = new Intent(this, MessagesActivity.class);
-            startActivity(intent);
+            intentHelper(MessagesActivity.class);
 
         } else if (itemId == R.id.logout) {
 
-            Toast.makeText(BaseActivity.this, "Logging Out!", Toast.LENGTH_SHORT).show();
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            intentHelper(Login.class);
+            Toast.makeText(BaseActivity.this, "Logged out successfully!", Toast.LENGTH_SHORT).show();
 
         }
         return true;
 
     }
     public void openHome(){
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
+        intentHelper(MainActivity.class);
     }
 
     public void openEvents(){
-        Intent intent = new Intent(this, EventsActivity.class);
-        startActivity(intent);
+        intentHelper(EventsActivity.class);
     }
 
     public void openGroups(){
-        Intent intent = new Intent(this, GroupsActivity.class);
-        startActivity(intent);
+        intentHelper(GroupsActivity.class);
     }
 
     public void openProfile(){
-        Intent intent = new Intent(this, ProfileActivity.class);
-        startActivity(intent);
+        intentHelper(ProfileActivity.class);
+    }
+
+    private void intentHelper(Class<?> activityClass){
+        Intent intent = new Intent(getApplicationContext(), activityClass);
+        startActivity(intent); // starts new activity
     }
 }
