@@ -9,13 +9,6 @@
         app:showAsAction="always"
         />
 
-    <item
-        android:id="@+id/notifications"
-        android:title="Notifications"
-        android:icon="@drawable/notifications"
-        app:showAsAction="always"
-        />
-
 
     <item
         android:id="@+id/logout"
