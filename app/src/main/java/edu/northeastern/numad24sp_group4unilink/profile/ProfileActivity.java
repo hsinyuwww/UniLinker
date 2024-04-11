@@ -9,7 +9,6 @@ import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.ListPopupWindow;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,13 +16,8 @@ import edu.northeastern.numad24sp_group4unilink.BaseActivity;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ActionMenuView;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -35,7 +29,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -43,8 +36,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.Objects;
 
 import edu.northeastern.numad24sp_group4unilink.Login;
 import edu.northeastern.numad24sp_group4unilink.R;
@@ -54,7 +45,6 @@ public class ProfileActivity extends BaseActivity {
 
     ActivityProfileBinding activityProfileBinding;
     private TextView firstName, lastName;
-    private ActionMenuView popUp;
     private TextView aboutContent, genderContent, levelContent, emailContent;
     private FirebaseFirestore userDB;
     private FirebaseUser currentUser;
@@ -103,7 +93,7 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setProfileDataUI();;
+        setProfileDataUI();
     }
 
     private void setupExpandableInfoListeners() {
