@@ -1,5 +1,7 @@
 package edu.northeastern.numad24sp_group4unilink;
 
+import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
+
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -35,8 +37,6 @@ import java.util.Objects;
 
 public class Register extends AppCompatActivity {
 
-
-    private FirebaseAuth mAuth;
     private String email, password, fName, lName;
     private EditText emailText, passwordText, firstNameText, lastNameText;
     private ProgressBar progressBar;
@@ -51,8 +51,6 @@ public class Register extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         Objects.requireNonNull(actionBar).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primaryDarkColor)));
 
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
         userDB = FirebaseFirestore.getInstance();
 
         emailText = findViewById(R.id.editEmail);
@@ -110,12 +108,12 @@ public class Register extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         User user = new User(email, password);
                                         storeUserData();
-                                        Log.d("Firebase", "createUserWithEmail:success");
+                                        Log.d("FireAuth", "createUserWithEmail:success");
                                         Toast.makeText(Register.this, "Registration is successful.", Toast.LENGTH_SHORT).show();
                                         login();
                                     } else {
                                         // If sign in fails, display a message to the user.
-                                        Log.w("Firebase", "createUserWithEmail:failure", task.getException());
+                                        Log.w("FireAuth", "createUserWithEmail:failure", task.getException());
                                         if(task.getException() instanceof FirebaseAuthWeakPasswordException){
                                             // Handle weak password exception
                                             Toast.makeText(Register.this, "Invalid password!! Password should be at least 6 characters.",
