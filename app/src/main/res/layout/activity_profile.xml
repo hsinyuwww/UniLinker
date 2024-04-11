@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -73,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/white"
-                        android:textSize="30dp"
+                        android:textSize="30sp"
                         android:layout_marginEnd="15dp"/>
 
                     <TextView
@@ -82,7 +81,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:textColor="@color/white"
-                        android:textSize="30dp"/>
+                        android:textSize="30sp"/>
                 </LinearLayout>
 
 
@@ -105,7 +104,6 @@
                         android:id="@+id/aboutHeaderID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toStartOf="@+id/editAboutId"
                         android:text="About"
                         android:clickable="true"
                         android:focusable="true"
@@ -119,7 +117,6 @@
                     android:id="@+id/aboutContentID"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/aboutHeaderID"
                     android:textColor="@color/secondaryColor"
                     android:padding="8dp"
                     android:visibility="gone"/>
@@ -132,7 +129,6 @@
                         android:id="@+id/genderHeaderID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toStartOf="@+id/editGenderId"
                         android:text="Gender"
                         android:clickable="true"
                         android:focusable="true"
@@ -145,7 +141,6 @@
                         android:id="@+id/genderContentID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/genderHeaderID"
                         android:textColor="@color/secondaryColor"
                         android:padding="8dp"
                         android:visibility="gone"/>
@@ -158,7 +153,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Major/Department"
-                        android:layout_toStartOf="@+id/editLevelId"
                         android:clickable="true"
                         android:focusable="true"
                         android:layout_marginEnd="10dp"
@@ -170,7 +164,6 @@
                         android:id="@+id/levelContentID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                            android:layout_below="@+id/levelHeaderID"
                         android:textColor="@color/secondaryColor"
                         android:padding="8dp"
                         android:visibility="gone"/>
@@ -182,7 +175,6 @@
                         android:id="@+id/emailHeaderID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_toStartOf="@+id/editEmailId"
                         android:background="?android:attr/selectableItemBackground"
                         android:clickable="true"
                         android:focusable="true"
@@ -195,7 +187,6 @@
                         android:id="@+id/emailContentID"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_below="@+id/emailHeaderID"
                         android:textColor="@color/secondaryColor"
                         android:padding="8dp"
                         android:visibility="gone"/>

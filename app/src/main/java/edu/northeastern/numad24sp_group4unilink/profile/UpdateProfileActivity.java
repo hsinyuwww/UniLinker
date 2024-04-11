@@ -8,13 +8,11 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
@@ -22,7 +20,6 @@ import androidx.appcompat.app.ActionBar;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -33,11 +30,9 @@ import java.util.Objects;
 
 import edu.northeastern.numad24sp_group4unilink.BaseActivity;
 import edu.northeastern.numad24sp_group4unilink.R;
-import edu.northeastern.numad24sp_group4unilink.databinding.ActivityProfileBinding;
 
 public class UpdateProfileActivity extends BaseActivity {
 
-    private String firstname, lastname, about, gender, level;
     private FirebaseFirestore userDB;
     private FirebaseUser currentUser;
 
@@ -88,11 +83,11 @@ public class UpdateProfileActivity extends BaseActivity {
     private void populateIntentData() {
 
         Intent intent = getIntent();
-        firstname = intent.getStringExtra("firstName");
-        lastname = intent.getStringExtra("lastName");
-        about = intent.getStringExtra("about");
-        gender = intent.getStringExtra("gender");
-        level = intent.getStringExtra("level");
+        String firstname = intent.getStringExtra("firstName");
+        String lastname = intent.getStringExtra("lastName");
+        String about = intent.getStringExtra("about");
+        String gender = intent.getStringExtra("gender");
+        String level = intent.getStringExtra("level");
 
         Log.d("Update Profile", "First name:" + firstname);
 
