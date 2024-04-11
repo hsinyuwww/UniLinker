@@ -112,11 +112,6 @@ public class UpdateProfileActivity extends BaseActivity {
             editTextGender.check(R.id.radioFemaleId);
         }
 
-        if("Male".equals(gender)){
-            editTextGender.check(R.id.radioMaleId);
-        } else if ("Female".equals(gender)){
-            editTextGender.check(R.id.radioFemaleId);
-        }
         switch (level){
             case "Graduate": editTextLevel.check(R.id.radioGradId);
                 break;
