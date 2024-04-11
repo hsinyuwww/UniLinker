@@ -26,10 +26,11 @@ import java.util.Objects;
 
 
 public class Login extends AppCompatActivity {
-    private FirebaseAuth mAuth;
+    public static FirebaseAuth mAuth;
     private String email, password;
     private EditText emailText, passwordText;
     private ProgressBar progressBar;
+    public static FirebaseUser loggedInUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,7 +72,7 @@ public class Login extends AppCompatActivity {
                                     Log.d("Firebase", "signInWithEmail:success");
                                     Toast.makeText(Login.this, "Sign in is successful.",
                                             Toast.LENGTH_SHORT).show();
-                                    FirebaseUser user = mAuth.getCurrentUser();
+                                    loggedInUser = mAuth.getCurrentUser();
                                     homepage();
                                 } else {
                                     // If sign in fails, display a message to the user.
@@ -101,6 +102,7 @@ public class Login extends AppCompatActivity {
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
+            loggedInUser = currentUser;
             homepage();
         }
     }
