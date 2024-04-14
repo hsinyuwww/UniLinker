@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/appBackgroundColor"
+    android:orientation="vertical">
+
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="15dp"
+    android:layout_margin="15dp"
+    android:background="@color/white">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateId"
+        android:layout_marginTop="10dp"
+        android:text="Update your profile details!!"
+        android:textAlignment="center"
+        android:textColor="@color/bottomNavigationColor"
+        android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateFirstNameId"
+        android:layout_below="@+id/updateId"
+        android:layout_marginTop="30dp"
+        android:padding="6dp"
+        android:text="First Name"
+        android:textSize="16sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/updateFirstNameId"
+        android:id="@+id/editTextFirstName"
+        android:inputType="textPersonName"
+        android:padding="6dp"
+        android:autofillHints="" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateLastNameId"
+        android:layout_below="@+id/editTextFirstName"
+        android:layout_marginTop="10dp"
+        android:padding="6dp"
+        android:text="Last Name"
+        android:textSize="16sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/updateLastNameId"
+        android:id="@+id/editTextLastName"
+        android:inputType="textPersonName"
+        android:padding="6dp"
+        android:autofillHints="" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateGenderId"
+        android:layout_below="@+id/editTextLastName"
+        android:layout_marginTop="10dp"
+        android:padding="6dp"
+        android:text="Gender"
+        android:textSize="16sp" />
+    
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextGender"
+        android:layout_below="@+id/updateGenderId"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioMaleId"
+            android:text="Male"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioFemaleId"
+            android:text="Female"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateLevelId"
+        android:layout_below="@+id/editTextGender"
+        android:layout_marginTop="10dp"
+        android:padding="6dp"
+        android:text="Level"
+        android:textSize="16sp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/editTextLevel"
+        android:layout_below="@+id/updateLevelId"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioGradId"
+            android:text="Graduate"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioUnderGradId"
+            android:text="Undergraduate"/>
+
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/radioOtherLevelId"
+            android:text="Other"/>
+
+    </RadioGroup>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/updateAboutId"
+        android:layout_below="@+id/editTextLevel"
+        android:layout_marginTop="10dp"
+        android:padding="6dp"
+        android:text="About you"
+        android:textSize="16sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/updateAboutId"
+        android:id="@+id/editTextAbout"
+        android:inputType="textPersonName"
+        android:padding="6dp"
+        android:autofillHints="" />
+    
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/uploadPicId"
+        android:layout_below="@+id/editTextAbout"
+        android:layout_marginTop="30dp"
+        android:text="Upload profile picture"
+        android:textColor="@color/bottomNavigationColor"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/saveDetailsId"
+        android:layout_below="@+id/uploadPicId"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/secondaryDarkColor"
+        android:textStyle="bold"
+        android:text="Save details"
+        android:textColor="@color/white"
+        android:layout_marginLeft="70dp"
+        android:layout_marginRight="70dp"/>
+
+    <ProgressBar
+        android:id="@+id/updateProfileProgressBarId"
+        android:visibility="gone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:elevation="10dp"/>
+
+</RelativeLayout>
+</ScrollView>
