@@ -74,19 +74,15 @@ public abstract class BaseActivity extends AppCompatActivity{
         popup.setOnMenuItemClickListener(item -> {
 
             int itemId = item.getItemId();
-            if (itemId == R.id.addPost) {
-                Intent intent = new Intent(this, CreatePost.class);
-                startActivity(intent);
-
-            } else if (itemId == R.id.addEvent) {
-                // Handle events action
+            if (itemId == R.id.addEvent) {
                 Intent intent = new Intent(this, CreateEvent.class);
+                String userEmail = getIntent().getStringExtra("userEmail");
+                String userId= getIntent().getStringExtra("userId");
+                intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
+                intent.putExtra("userId", userId);
                 startActivity(intent);
-
             } else if (itemId == R.id.addGroup) {
-                // Handle add action
-                Intent intent = new Intent(this, CreateGroup.class);
-                startActivity(intent);
+                intentHelper(CreateGroup.class);
 
             }
             return true;
