@@ -2,16 +2,16 @@ package edu.northeastern.numad24sp_group4unilink.events;
 
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
+
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -22,7 +22,7 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -33,8 +33,10 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import edu.northeastern.numad24sp_group4unilink.Attendees.AttendeesActivity;
 import edu.northeastern.numad24sp_group4unilink.R;
-import edu.northeastern.numad24sp_group4unilink.databinding.ActivityProfileBinding;
+import edu.northeastern.numad24sp_group4unilink.comments.CommentsActivity;
+import edu.northeastern.numad24sp_group4unilink.databinding.ActivityViewEventBinding;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -42,22 +44,22 @@ import android.widget.Toast;
 
 public class ViewEventActivity extends AppCompatActivity {
 
-    ActivityProfileBinding activityProfileBinding;
+    ActivityViewEventBinding activityViewEventBinding;
     private TextView eventTitle, eventDesc, editTextDate, editTextTime, eventlocation, eventTag;
-    private ImageView eventImage;
+    private ImageView eventImage, iconComment, iconAttendees;
     private Button Attend, Comment;
-    private Spinner attendeesSpinner,commentsSpinner;
+
+
     String postId, userId, userEmail;
     FirebaseFirestore db;
     CollectionReference communitiesRef;
-    String selectedCommunity;
-    Map<String, String> userIdToEmailMap, commentIdtoComment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        activityProfileBinding = ActivityProfileBinding.inflate(getLayoutInflater());
-        setContentView(activityProfileBinding.getRoot());
+        activityViewEventBinding = ActivityViewEventBinding.inflate(getLayoutInflater());
+        setContentView(activityViewEventBinding.getRoot());
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -78,6 +80,8 @@ public class ViewEventActivity extends AppCompatActivity {
         eventImage = findViewById(R.id.eventImage);
         eventTag=findViewById(R.id.eventTag);
         Attend= findViewById(R.id.Attend);
+        iconAttendees=findViewById(R.id.iconAttendees);
+        iconComment=findViewById(R.id.iconComment);
         db = FirebaseFirestore.getInstance();
 
         communitiesRef = db.collection("communities");
@@ -111,6 +115,28 @@ public class ViewEventActivity extends AppCompatActivity {
         Attend.setOnClickListener(v -> {
             // Check if the current user is already attending the post
             checkIfAttendingPost();
+        });
+
+        iconComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewEventActivity.this, CommentsActivity.class);
+                intent.putExtra("postID", postId);
+                intent.putExtra("userID", userId);
+                intent.putExtra("userEmail", userEmail);
+                startActivity(intent);
+            }
+        });
+
+        iconAttendees.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ViewEventActivity.this, AttendeesActivity.class);
+                intent.putExtra("postID", postId);
+                intent.putExtra("userID", userId);
+                intent.putExtra("userEmail", userEmail);
+                startActivity(intent);
+            }
         });
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
