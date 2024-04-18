@@ -1,6 +1,7 @@
 package edu.northeastern.numad24sp_group4unilink.profile;
 
 import static edu.northeastern.numad24sp_group4unilink.Login.loggedInUser;
+import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
 
 import android.content.Context;
 import android.content.Intent;
@@ -59,7 +60,7 @@ public class MyCommunitiesAdapter extends RecyclerView.Adapter<MyCommunitiesHold
                     Intent intent = new Intent(context, ViewACommunity.class);
                     intent.putExtra("commTag", clickedComm.getTag());
                     intent.putExtra("commId", clickedComm.getId());
-                    intent.putExtra("userId", loggedInUser.getUid());
+                    intent.putExtra("userId", mAuth.getCurrentUser().getUid());
                     context.startActivity(intent);
                 }
             }

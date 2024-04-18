@@ -1,6 +1,5 @@
 package edu.northeastern.numad24sp_group4unilink.profile;
 
-import static edu.northeastern.numad24sp_group4unilink.Login.loggedInUser;
 import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
 import static edu.northeastern.numad24sp_group4unilink.Register.defaultPicUrl;
 
@@ -75,6 +74,7 @@ public class ProfileActivity extends BaseActivity {
     private boolean isDeleteDialogOpen, isUpdateDialogOpen;
     static public String currentUserDocId;
     private ProgressBar progressBar;
+    private String loggedInUserId;
 
     private MyEventsAdapter myEventsAdapter;
     private MyCommunitiesAdapter myCommunityAdapter;
@@ -104,7 +104,10 @@ public class ProfileActivity extends BaseActivity {
        currentUser = mAuth.getCurrentUser();
        progressBar = findViewById(R.id.progressBarId);
 
-        if(loggedInUser == currentUser){
+        // Retrieve user's email address from intent
+        loggedInUserId = getIntent().getStringExtra("userID");
+
+        if(loggedInUserId == getCurrentUserId()){
             setUpHamburgerMenu();
         }
 

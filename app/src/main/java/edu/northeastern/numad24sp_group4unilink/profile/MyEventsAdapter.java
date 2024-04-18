@@ -1,6 +1,6 @@
 package edu.northeastern.numad24sp_group4unilink.profile;
 
-import static edu.northeastern.numad24sp_group4unilink.Login.loggedInUser;
+import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 import edu.northeastern.numad24sp_group4unilink.R;
 import edu.northeastern.numad24sp_group4unilink.events.Event;
-import edu.northeastern.numad24sp_group4unilink.events.EventItem;
 import edu.northeastern.numad24sp_group4unilink.events.ViewEventActivity;
 
 public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsHolder> {
@@ -61,8 +60,8 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsHolder> {
                     Event clickedEvent = eventsList.get(position);
                     Intent intent = new Intent(context, ViewEventActivity.class);
                     intent.putExtra("postId", clickedEvent.getDocumentId());
-                    intent.putExtra("userId", loggedInUser.getUid());
-                    intent.putExtra("userEmail", loggedInUser.getEmail());
+                    intent.putExtra("userId", mAuth.getCurrentUser().getUid());
+                    intent.putExtra("userEmail", mAuth.getCurrentUser().getEmail());
                     context.startActivity(intent);
                 }
             }
