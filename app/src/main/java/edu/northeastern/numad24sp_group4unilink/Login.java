@@ -73,7 +73,9 @@ public class Login extends AppCompatActivity {
                                     Toast.makeText(Login.this, "Sign in is successful.",
                                             Toast.LENGTH_SHORT).show();
                                     loggedInUser = mAuth.getCurrentUser();
-                                    homepage();
+
+                                    homepage(loggedInUser.getEmail(), loggedInUser.getUid());
+
                                 } else {
                                     // If sign in fails, display a message to the user.
                                     Log.w("Firebase", "signInWithEmail:failure", task.getException());
@@ -103,12 +105,14 @@ public class Login extends AppCompatActivity {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if(currentUser != null){
             loggedInUser = currentUser;
-            homepage();
+            homepage(loggedInUser.getEmail(), loggedInUser.getUid());
         }
     }
 
-    public void homepage() {
+    public void homepage(String userEmail, String userId) {
         Intent intent = new Intent(Login.this, MainActivity.class);
+        intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
+        intent.putExtra("userID", userId);
         startActivity(intent);
         finish();
     }
