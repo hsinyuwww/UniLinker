@@ -52,6 +52,7 @@ public class EventsActivity extends BaseActivity {
 
     public String userEmail, userID, EVENTS_TYPE;
     ActivityEventsBinding activityEventsBinding;
+    private static final int EDIT_EVENT_REQUEST_CODE = 1001;
 
 
     @Override
@@ -293,7 +294,16 @@ public class EventsActivity extends BaseActivity {
             public void onDeleteClick(int position) {
                 eventList.get(position).onDeleteClick(position);
                 EventItem event = eventList.get(position);
-                deletePost(event.getEventID(), position);
+                deletePost(event.getEventID(), position, new DeleteCallback() {
+                    @Override
+                    public void onSuccess() {
+                        eventList.remove(position);
+                        eventAdapter.notifyItemRemoved(position);
+                        eventAdapter.notifyItemRangeChanged(position, eventList.size());
+                    }
+
+                });
+
 
             }
 
@@ -308,7 +318,17 @@ public class EventsActivity extends BaseActivity {
 
     }
 
-    public void deletePost(String postId, Integer position){
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == EDIT_EVENT_REQUEST_CODE && resultCode == RESULT_OK) {
+            // Reload your events list or specific item
+            callEventsList();  // This might reload all data; consider optimizing
+        }
+    }
+
+    public void deletePost(String postId, Integer position, DeleteCallback callback){
+
         CollectionReference postsRef = eventsRef;
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -317,6 +337,7 @@ public class EventsActivity extends BaseActivity {
 
         // Add the buttons
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked Yes button
                 postsRef.document(postId)
@@ -325,13 +346,12 @@ public class EventsActivity extends BaseActivity {
                             @Override
                             public void onSuccess(Void aVoid) {
                                 // Post deleted successfully
-                                eventList.remove(position);
-                                // Notify the adapter of the item removed
-                                eventAdapter.notifyItemRemoved(position);
-                                eventAdapter.notifyItemRangeChanged(position, eventList.size());
+                                callback.onSuccess();
                                 Toast.makeText(getApplicationContext(), "Post deleted successfully", Toast.LENGTH_SHORT).show();
 
+
                             }
+
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
@@ -346,6 +366,7 @@ public class EventsActivity extends BaseActivity {
         builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User cancelled the dialog
+
                 dialog.dismiss();
             }
         });
