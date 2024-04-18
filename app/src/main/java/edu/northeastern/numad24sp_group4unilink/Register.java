@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class Register extends AppCompatActivity {
     private EditText emailText, passwordText, firstNameText, lastNameText;
     private ProgressBar progressBar;
     private FirebaseFirestore userDB;
+    public static String defaultPicUrl = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +139,7 @@ public class Register extends AppCompatActivity {
         user.put("password", password);
         user.put("firstName", fName);
         user.put("lastName", lName);
+        user.put("profilePic", defaultPicUrl);
         user.put("userID", mAuth.getCurrentUser().getUid());
 
         userDB.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

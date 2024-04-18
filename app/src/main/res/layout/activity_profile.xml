@@ -52,18 +52,35 @@
                         android:visibility="gone"/>
                 </androidx.appcompat.widget.Toolbar>
 
+                <FrameLayout
+                    android:id="@+id/profilePic"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_centerInParent="true">
+
                 <ImageView
                     android:id="@+id/profilePicId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:src="@mipmap/ic_launcher"
+                    android:scaleType="center"
                     tools:srcCompat="@tools:sample/avatars" />
+
+                    <ProgressBar
+                        android:id="@+id/progressBarId"
+                        android:visibility="gone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        style="?android:attr/progressBarStyleSmall"
+                        android:indeterminate="true"/>
+
+                </FrameLayout>
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/profilePicId"
+                    android:layout_below="@id/profilePic"
                     android:orientation="horizontal"
                     android:layout_centerInParent="true">
                     <TextView
@@ -193,7 +210,103 @@
                 </LinearLayout>
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/myEventsId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Events"
+                    android:layout_weight="1"
+                    android:layout_marginStart="32dp"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/secondaryDarkColor"/>
+
+                <TextView
+                    android:id="@+id/myEventsAttending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="0dp"
+                    android:layout_weight="1"
+                    android:text="(attending)"
+                    android:textColor="@color/secondaryDarkColor"
+                    android:textSize="15sp"
+                    android:textStyle="italic" />
+
+            </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:layout_height="match_parent"
+                    android:layout_width="match_parent"
+                    android:id="@+id/eventsView"
+                    android:clipToPadding="false"
+                    android:paddingStart="24dp"
+                    android:paddingEnd="24dp" />
+
+            <TextView
+                android:id="@+id/noEventsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No events attending"
+                android:textStyle="italic"
+                android:padding="16dp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:textColor="@color/secondaryDarkColor"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="8dp">
+                <TextView
+                    android:id="@+id/myCommunitiesId"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="Communities"
+                    android:layout_weight="1"
+                    android:layout_marginStart="32dp"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:textColor="@color/secondaryDarkColor"/>
+                <TextView
+                    android:id="@+id/myCommunitiesJoined"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="(joined)"
+                    android:layout_weight="1"
+                    android:layout_marginStart="0dp"
+                    android:textStyle="italic"
+                    android:textSize="15sp"
+                    android:textColor="@color/secondaryDarkColor"/>
+
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/CommunitiesView"
+                android:clipToPadding="false"
+                android:paddingStart="24dp"
+                android:paddingEnd="24dp" />
+
+            <TextView
+                android:id="@+id/noCommunitiesText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="No communities joined"
+                android:textStyle="italic"
+                android:padding="16dp"
+                android:visibility="gone"
+                android:gravity="center"
+                android:textColor="@color/secondaryDarkColor"/>
+
 
         </LinearLayout>
         </ScrollView>
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
