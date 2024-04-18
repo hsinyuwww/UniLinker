@@ -68,6 +68,9 @@
             android:name=".events.EventsActivity"
             android:exported="false" />
         <activity
+            android:name=".events.EditEvent"
+            android:exported="false" />
+        <activity
             android:name=".Register"
             android:exported="false" />
         <activity

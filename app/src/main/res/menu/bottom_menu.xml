@@ -20,7 +20,7 @@
 
     <item
         android:id="@+id/groups"
-        android:title="Groups"
+        android:title="Communities"
         android:icon="@drawable/groups"
         />
 

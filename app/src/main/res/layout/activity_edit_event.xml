@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".events.EditEvent">
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="350dp"
+        android:layout_height="30dp"
+        android:fontFamily="@font/alatsi"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        android:text="EDIT POST : "
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/eventImage"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="27dp" />
+
+    <ImageView
+        android:id="@+id/eventImage"
+        android:layout_width="350dp"
+        android:layout_height="150dp"
+        app:layout_constraintBottom_toTopOf="@+id/eventTitle"
+        app:layout_constraintEnd_toEndOf="@+id/textView"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/textView"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:srcCompat="@drawable/event" />
+
+    <EditText
+        android:id="@+id/eventTitle"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:hint="Event title "
+        app:layout_constraintBottom_toTopOf="@+id/eventDesc"
+        app:layout_constraintEnd_toEndOf="@+id/eventImage"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/eventImage"
+        app:layout_constraintTop_toBottomOf="@+id/eventImage" />
+
+    <EditText
+        android:id="@+id/eventDesc"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:hint="Enter event description here"
+        app:layout_constraintBottom_toTopOf="@+id/editTextDate"
+        app:layout_constraintEnd_toEndOf="@+id/eventTitle"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/eventTitle"
+        app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
+
+    <EditText
+        android:id="@+id/editTextDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="none"
+        android:onClick="showDatePickerDialog"
+        android:hint="Choose date of event"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTime"
+        app:layout_constraintEnd_toEndOf="@+id/eventDesc"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/eventDesc"
+        app:layout_constraintTop_toBottomOf="@+id/eventDesc" />
+
+    <EditText
+        android:id="@+id/editTextTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="none"
+        android:onClick="showTimePickerDialog"
+        android:hint="Enter event time"
+        app:layout_constraintBottom_toTopOf="@+id/eventlocation"
+        app:layout_constraintEnd_toEndOf="@+id/editTextDate"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/editTextDate"
+        app:layout_constraintTop_toBottomOf="@+id/editTextDate" />
+
+    <EditText
+        android:id="@+id/eventlocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Event location"
+        app:layout_constraintBottom_toTopOf="@+id/eventTag"
+        app:layout_constraintEnd_toEndOf="@+id/editTextTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/editTextTime"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTime" />
+
+    <Spinner
+        android:id="@+id/eventTag"
+        android:layout_width="0dp"
+        app:layout_constraintWidth_percent="0.5"
+        android:layout_height="wrap_content"
+        android:hint="Event tag/community placeholder"
+        app:layout_constraintBottom_toTopOf="@+id/editPostButton"
+        app:layout_constraintEnd_toEndOf="@+id/eventlocation"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="@+id/eventlocation"
+        app:layout_constraintTop_toBottomOf="@+id/eventlocation"/>
+
+    <Button
+        android:id="@+id/editPostButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Update Post"
+        app:layout_constraintTop_toBottomOf="@+id/eventTag"
+        app:layout_constraintEnd_toEndOf="@+id/eventTag"
+        app:layout_constraintStart_toStartOf="@+id/eventTag"
+        app:layout_constraintBottom_toBottomOf="parent"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

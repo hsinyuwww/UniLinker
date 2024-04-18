@@ -17,9 +17,11 @@ import edu.northeastern.numad24sp_group4unilink.R;
 public class EventAdapter extends RecyclerView.Adapter<EventHolder>{
 
     private final ArrayList<EventItem> itemList;
+    private final String EVENTS_TYPE;
     private EventInterface listener;
-    public EventAdapter(ArrayList<EventItem> itemList) {
+    public EventAdapter(ArrayList<EventItem> itemList, String EVENTS_TYPE) {
         this.itemList = itemList;
+        this.EVENTS_TYPE = EVENTS_TYPE;
     }
 
     public void setOnItemClickListener(EventInterface listener) {
@@ -29,7 +31,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventHolder>{
     @Override
     public EventHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_event, parent, false);
-        return new EventHolder(view, listener);
+        return new EventHolder(view, listener, EVENTS_TYPE);
     }
 
     @Override
@@ -46,6 +48,19 @@ public class EventAdapter extends RecyclerView.Adapter<EventHolder>{
         holder.community.setText(currentItem.getCommunity());
         holder.dateTime.setText(date +", "+time);
         holder.eventID.setText(currentItem.getEventID());
+
+        if(EVENTS_TYPE.equals("MY_EVENTS")){
+
+            holder.edit.setVisibility(View.VISIBLE);
+            holder.delete.setVisibility(View.VISIBLE);
+        }else if(EVENTS_TYPE.equals("ATTENDING_EVENTS")){
+
+            holder.edit.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+        }else if(EVENTS_TYPE.equals("ALL_EVENTS")){
+            holder.edit.setVisibility(View.GONE);
+            holder.delete.setVisibility(View.GONE);
+        }
 
         String imageUrl = currentItem.getImage();
 

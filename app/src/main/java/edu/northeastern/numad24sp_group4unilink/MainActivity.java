@@ -41,7 +41,7 @@ import edu.northeastern.numad24sp_group4unilink.events.EventItem;
 public class MainActivity extends BaseActivity {
     private ArrayList<EventItem> eventList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private Map<String, String> postTitlesAndIds;
+
     private CollectionReference eventsRef;
     private EventAdapter eventAdapter;
     private FirebaseFirestore db;
@@ -49,7 +49,7 @@ public class MainActivity extends BaseActivity {
     private static final String KEY_OF_INSTANCE = "KEY_OF_INSTANCE";
     private static final String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
 
-    public String userEmail, userID, EVENT_TYPE;
+    public String userEmail, userID, EVENTS_TYPE;
 
     ActivityMainBinding activityMainBinding;
 
@@ -70,7 +70,7 @@ public class MainActivity extends BaseActivity {
 
         userEmail = intent.getStringExtra("userEmail");
         userID =  intent.getStringExtra("userID");
-        EVENT_TYPE = intent.getStringExtra("EVENT_TYPE");
+        EVENTS_TYPE = intent.getStringExtra("EVENTS_TYPE");
         db = FirebaseFirestore.getInstance();
         eventsRef = db.collection("posts");
         init(savedInstanceState);
@@ -153,27 +153,34 @@ public class MainActivity extends BaseActivity {
         if (savedInstanceState != null ) {
             if (eventList == null || eventList.size() == 0) {
 
-                int size = savedInstanceState.getInt(NUMBER_OF_ITEMS);
+                String activity = savedInstanceState.getString("ACTIVITY");
+                if(activity=="MAIN") {
 
-                // Retrieve keys we stored in the instance
-                for (int i = 0; i < size; i++) {
+                    int size = savedInstanceState.getInt(NUMBER_OF_ITEMS);
 
-                    String title = savedInstanceState.getString(KEY_OF_INSTANCE + i + "0");
-                    String description = savedInstanceState.getString(KEY_OF_INSTANCE + i + "1");
-                    String date = savedInstanceState.getString(KEY_OF_INSTANCE + i + "2");
-                    String time = savedInstanceState.getString(KEY_OF_INSTANCE + i + "3");
-                    String image = savedInstanceState.getString(KEY_OF_INSTANCE + i + "4");
-                    String location = savedInstanceState.getString(KEY_OF_INSTANCE + i + "5");
-                    String community = savedInstanceState.getString(KEY_OF_INSTANCE + i + "6");
-                    String eventID = savedInstanceState.getString(KEY_OF_INSTANCE + i + "7");
+                    // Retrieve keys we stored in the instance
+                    for (int i = 0; i < size; i++) {
 
-                    EventItem eventCard = new EventItem(title, description, date, time, image, location, community, eventID);
+                        String title = savedInstanceState.getString(KEY_OF_INSTANCE + i + "0");
+                        String description = savedInstanceState.getString(KEY_OF_INSTANCE + i + "1");
+                        String date = savedInstanceState.getString(KEY_OF_INSTANCE + i + "2");
+                        String time = savedInstanceState.getString(KEY_OF_INSTANCE + i + "3");
+                        String image = savedInstanceState.getString(KEY_OF_INSTANCE + i + "4");
+                        String location = savedInstanceState.getString(KEY_OF_INSTANCE + i + "5");
+                        String community = savedInstanceState.getString(KEY_OF_INSTANCE + i + "6");
+                        String eventID = savedInstanceState.getString(KEY_OF_INSTANCE + i + "7");
 
-                    eventList.add(eventCard);
+                        EventItem eventCard = new EventItem(title, description, date, time, image, location, community, eventID);
 
-                }
-                for(int i=0;i<eventList.size();i++){
-                    eventAdapter.notifyItemInserted(i);
+                        eventList.add(eventCard);
+
+                    }
+                    for (int i = 0; i < eventList.size(); i++) {
+                        eventAdapter.notifyItemInserted(i);
+                    }
+
+                }else{
+                    callEventsList();
                 }
             }
 
@@ -198,7 +205,7 @@ public class MainActivity extends BaseActivity {
 
         recyclerView.setNestedScrollingEnabled(true);
 
-        eventAdapter = new EventAdapter(eventList);
+        eventAdapter = new EventAdapter(eventList, EVENTS_TYPE);
         EventInterface itemClickListener = new EventInterface() {
 
             @Override
@@ -341,6 +348,7 @@ public class MainActivity extends BaseActivity {
 
         int size = eventList  == null ? 0 : eventList.size();
         outState.putInt(NUMBER_OF_ITEMS, size);
+        outState.putString("ACTIVITY","MAIN");
 
         // Need to generate unique key for each item
         // This is only a possible way to do, please find your own way to generate the key
