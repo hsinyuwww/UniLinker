@@ -1,7 +1,5 @@
 package edu.northeastern.numad24sp_group4unilink.profile;
 
-import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -12,15 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
+import edu.northeastern.numad24sp_group4unilink.Login;
 import edu.northeastern.numad24sp_group4unilink.R;
 import edu.northeastern.numad24sp_group4unilink.events.Event;
 import edu.northeastern.numad24sp_group4unilink.events.ViewEventActivity;
 
 public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsHolder> {
-    private ArrayList<Event> eventsList;
+    private final ArrayList<Event> eventsList;
     private Context context;
 
     public MyEventsAdapter(Context context, ArrayList<Event> eventsList){
@@ -52,17 +53,20 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsHolder> {
             Glide.with((context)).load(R.drawable.event).into(holder.eventImage);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = holder.getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION){
-                    Event clickedEvent = eventsList.get(position);
-                    Intent intent = new Intent(context, ViewEventActivity.class);
-                    intent.putExtra("postId", clickedEvent.getDocumentId());
-                    intent.putExtra("userId", mAuth.getCurrentUser().getUid());
-                    intent.putExtra("userEmail", mAuth.getCurrentUser().getEmail());
+        holder.itemView.setOnClickListener(v -> {
+            int position1 = holder.getAdapterPosition();
+            if (position1 != RecyclerView.NO_POSITION){
+                Event clickedEvent = eventsList.get(position1);
+                Intent intent = new Intent(context, ViewEventActivity.class);
+                intent.putExtra("postId", clickedEvent.getDocumentId());
+
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if(currentUser!= null){
+                    intent.putExtra("userEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                    intent.putExtra("userId", currentUser.getUid());
                     context.startActivity(intent);
+                } else{
+                    context.startActivity(new Intent(context, Login.class));
                 }
             }
         });

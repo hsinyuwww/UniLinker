@@ -1,7 +1,5 @@
 package edu.northeastern.numad24sp_group4unilink;
 
-import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
-
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -10,7 +8,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +21,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.firestore.DocumentReference;
@@ -98,7 +96,7 @@ public class Register extends AppCompatActivity {
 
                 progressBar.setVisibility(View.VISIBLE);
 
-                    mAuth.createUserWithEmailAndPassword(email, password)
+                FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
                             .addOnCompleteListener(Register.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -140,7 +138,7 @@ public class Register extends AppCompatActivity {
         user.put("firstName", fName);
         user.put("lastName", lName);
         user.put("profilePic", defaultPicUrl);
-        user.put("userID", mAuth.getCurrentUser().getUid());
+        user.put("userID", FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         userDB.collection("users").add(user).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
             @Override
