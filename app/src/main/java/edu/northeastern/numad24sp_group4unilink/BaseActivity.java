@@ -137,6 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
         intent.putExtra("userId", userId);
         intent.putExtra("EVENTS_TYPE","MY_EVENTS" );
+        startActivity(intent);
     }
 
     public void openGroups(){

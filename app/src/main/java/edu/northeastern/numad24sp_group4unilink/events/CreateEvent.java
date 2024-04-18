@@ -158,7 +158,7 @@ public class CreateEvent extends BaseActivity {
 
         // Retrieve user's email address from intent
         String userEmail = getIntent().getStringExtra("userEmail");
-        userId=getIntent().getStringExtra("userId");
+        userId=getIntent().getStringExtra("userID");
 
         if (userEmail != null) {
             // Update UI with user's email address (e.g., set text in a TextView)

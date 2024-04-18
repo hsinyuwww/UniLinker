@@ -113,6 +113,7 @@ public class Login extends AppCompatActivity {
         Intent intent = new Intent(Login.this, MainActivity.class);
         intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
         intent.putExtra("userID", userId);
+        intent.putExtra("EVENTS_TYPE","ALL_EVENTS");
         startActivity(intent);
         finish();
     }

@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import edu.northeastern.numad24sp_group4unilink.R;
-import edu.northeastern.numad24sp_group4unilink.comments.CommentsActivity;
 
 
 public class EventHolder extends RecyclerView.ViewHolder {
@@ -28,9 +27,13 @@ public class EventHolder extends RecyclerView.ViewHolder {
 
     public ImageView comment, delete, edit, attendees;
 
-    public EventHolder(View itemView, final EventInterface listener) {
+    private String EVENTS_TYPE;
+
+    public EventHolder(View itemView, final EventInterface listener, String EVENTS_TYPE) {
 
         super(itemView);
+        this.EVENTS_TYPE=EVENTS_TYPE;
+
         imageEvent = itemView.findViewById(R.id.eventImage);
         title = itemView.findViewById(R.id.textTitle);
         location = itemView.findViewById(R.id.textLocation);
@@ -43,6 +46,7 @@ public class EventHolder extends RecyclerView.ViewHolder {
         comment = itemView.findViewById(R.id.iconComment);
         eventID = itemView.findViewById(R.id.textEventID);
         attendees = itemView.findViewById(R.id.iconAttendees);
+
         if (imageEvent == null) {
             Log.e("ViewHolder", "ImageView is null");
             // Log more details about the itemView
