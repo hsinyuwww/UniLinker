@@ -80,6 +80,7 @@ public abstract class BaseActivity extends AppCompatActivity{
                 String userId= getIntent().getStringExtra("userId");
                 intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
                 intent.putExtra("userId", userId);
+                intent.putExtra("EVENTS_TYPE","ALL_EVENTS" );
                 startActivity(intent);
             } else if (itemId == R.id.addGroup) {
                 intentHelper(CreateGroup.class);
@@ -119,11 +120,23 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     }
     public void openHome(){
-        intentHelper(MainActivity.class);
+
+        Intent intent = new Intent(this, MainActivity.class);
+        String userEmail = getIntent().getStringExtra("userEmail");
+        String userId= getIntent().getStringExtra("userId");
+        intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
+        intent.putExtra("userId", userId);
+        intent.putExtra("EVENTS_TYPE","ALL_EVENTS" );
+        startActivity(intent);
     }
 
     public void openEvents(){
-        intentHelper(EventsActivity.class);
+        Intent intent = new Intent(this, EventsActivity.class);
+        String userEmail = getIntent().getStringExtra("userEmail");
+        String userId= getIntent().getStringExtra("userId");
+        intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
+        intent.putExtra("userId", userId);
+        intent.putExtra("EVENTS_TYPE","MY_EVENTS" );
     }
 
     public void openGroups(){
