@@ -149,23 +149,12 @@
         android:inputType="textPersonName"
         android:padding="6dp"
         android:autofillHints="" />
-    
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/uploadPicId"
-        android:layout_below="@+id/editTextAbout"
-        android:layout_marginTop="30dp"
-        android:text="Upload profile picture"
-        android:textColor="@color/bottomNavigationColor"
-        android:layout_marginLeft="70dp"
-        android:layout_marginRight="70dp"/>
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/saveDetailsId"
-        android:layout_below="@+id/uploadPicId"
+        android:layout_below="@+id/editTextAbout"
         android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
         android:backgroundTint="@color/secondaryDarkColor"
