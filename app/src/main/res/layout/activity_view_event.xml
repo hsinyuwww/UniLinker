@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".events.ViewEventActivity">
+
+
+    <TextView
+        android:id="@+id/eventTitle"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:hint="Event title "
+
+
+        app:layout_constraintBottom_toTopOf="@+id/eventImage"
+        app:layout_constraintStart_toStartOf="@+id/eventImage"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <ImageView
+        android:id="@+id/eventImage"
+        android:layout_width="350dp"
+        android:layout_height="150dp"
+
+        app:layout_constraintBottom_toTopOf="@+id/eventDesc"
+        app:layout_constraintStart_toStartOf="@+id/eventDesc"
+        app:layout_constraintTop_toBottomOf="@+id/eventTitle"
+        app:layout_constraintVertical_bias="0.5"
+        app:srcCompat="@drawable/event" />
+
+    <TextView
+        android:id="@+id/eventDesc"
+        android:layout_width="350dp"
+        android:layout_height="40dp"
+        android:hint="Event description "
+        app:layout_constraintBottom_toTopOf="@+id/When"
+        app:layout_constraintStart_toStartOf="@+id/When"
+        app:layout_constraintTop_toBottomOf="@+id/eventImage"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/When"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="When: "
+        app:layout_constraintBottom_toTopOf="@+id/location"
+        app:layout_constraintEnd_toStartOf="@+id/editTextDate"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventDesc"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/editTextDate"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:hint="Date of event"
+        android:inputType="none"
+        app:layout_constraintBottom_toBottomOf="@+id/When"
+        app:layout_constraintEnd_toStartOf="@+id/editTextTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/When"
+        app:layout_constraintTop_toTopOf="@+id/When" />
+
+    <TextView
+        android:id="@+id/editTextTime"
+        android:layout_width="100dp"
+        android:layout_height="20dp"
+        android:ems="10"
+        android:hint="Event time"
+        android:inputType="none"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/editTextDate"
+        app:layout_constraintTop_toTopOf="@+id/editTextDate" />
+
+    <TextView
+        android:id="@+id/location"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location "
+
+        app:layout_constraintBottom_toTopOf="@+id/Community"
+        app:layout_constraintEnd_toStartOf="@+id/eventlocation"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/When"
+        app:layout_constraintVertical_bias="0.5" />
+
+
+    <TextView
+        android:id="@+id/eventlocation"
+        android:layout_width="240dp"
+        android:layout_height="wrap_content"
+        android:hint="Event location"
+        app:layout_constraintBottom_toBottomOf="@+id/location"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/location"
+        app:layout_constraintTop_toTopOf="@+id/location" />
+
+    <TextView
+        android:id="@+id/Community"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Community tag:"
+        app:layout_constraintBottom_toTopOf="@+id/iconComment"
+        app:layout_constraintEnd_toStartOf="@+id/eventTag"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/location"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/eventTag"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:hint="Event tag"
+        app:layout_constraintBottom_toBottomOf="@+id/Community"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/Community"
+        app:layout_constraintTop_toTopOf="@+id/Community"
+        app:layout_constraintWidth_percent="0.5" />
+
+
+    <ImageView
+        android:id="@+id/iconComment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/comment"
+        app:layout_constraintBottom_toTopOf="@+id/Attend"
+        app:layout_constraintEnd_toStartOf="@+id/iconAttendees"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Community"
+        app:layout_constraintVertical_bias="0.5"/>
+
+
+    <ImageView
+        android:id="@+id/iconAttendees"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:src="@drawable/profile"
+        app:layout_constraintBottom_toBottomOf="@+id/iconComment"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/iconComment"
+        app:layout_constraintTop_toTopOf="@+id/iconComment" />
+
+    <Button
+        android:id="@+id/Attend"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="25dp"
+        android:text="Attend"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
