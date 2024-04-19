@@ -1,6 +1,5 @@
 package edu.northeastern.numad24sp_group4unilink.profile;
 
-import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
 import static edu.northeastern.numad24sp_group4unilink.profile.ProfileActivity.currentUserDocId;
 
 import android.app.AlertDialog;
@@ -8,7 +7,6 @@ import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -19,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,19 +46,15 @@ public class UpdateProfileActivity extends BaseActivity {
         Objects.requireNonNull(actionBar).setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primaryDarkColor)));
 
             userDB = FirebaseFirestore.getInstance();
-
-            currentUser = mAuth.getCurrentUser();
+            currentUser = FirebaseAuth.getInstance().getCurrentUser();
 
             populateIntentData();
 
         Button saveDetails = findViewById(R.id.saveDetailsId);
 
-        saveDetails.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveProfileDetails();
-                finish();
-            }
+        saveDetails.setOnClickListener(v -> {
+            saveProfileDetails();
+            finish();
         });
 
         // handles the back button press with a confirmation dialog
@@ -69,9 +63,7 @@ public class UpdateProfileActivity extends BaseActivity {
             public void handleOnBackPressed() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(UpdateProfileActivity.this);
                 builder.setTitle("Unsaved changes").setMessage("Are you sure you want to dismiss?").setCancelable(false);
-                builder.setPositiveButton(android.R.string.yes, (dialog, which) -> {
-                    finish();
-                });
+                builder.setPositiveButton(android.R.string.yes, (dialog, which) -> finish());
                 builder.setNegativeButton(android.R.string.no, null);
                 builder.show();
             }
@@ -79,6 +71,7 @@ public class UpdateProfileActivity extends BaseActivity {
         getOnBackPressedDispatcher().addCallback(this, onBackPressedCallback);
 
     }
+
 
     private void populateIntentData() {
 
@@ -88,8 +81,6 @@ public class UpdateProfileActivity extends BaseActivity {
         String about = intent.getStringExtra("about");
         String gender = intent.getStringExtra("gender");
         String level = intent.getStringExtra("level");
-
-        Log.d("Update Profile", "First name:" + firstname);
 
         editTextFirstName = findViewById(R.id.editTextFirstName);
         editTextLastName = findViewById(R.id.editTextLastName);
@@ -107,15 +98,20 @@ public class UpdateProfileActivity extends BaseActivity {
             editTextGender.check(R.id.radioFemaleId);
         }
 
-        switch (level){
-            case "Graduate": editTextLevel.check(R.id.radioGradId);
-                break;
-            case "Undergraduate": editTextLevel.check(R.id.radioUnderGradId);
-                break;
-            case "Other": editTextLevel.check(R.id.radioOtherLevelId);
-                break;
-            default:
-                break;
+        if(level != null) {
+            switch (level) {
+                case "Graduate":
+                    editTextLevel.check(R.id.radioGradId);
+                    break;
+                case "Undergraduate":
+                    editTextLevel.check(R.id.radioUnderGradId);
+                    break;
+                case "Other":
+                    editTextLevel.check(R.id.radioOtherLevelId);
+                    break;
+                default:
+                    break;
+            }
         }
 
     }
@@ -152,12 +148,7 @@ public class UpdateProfileActivity extends BaseActivity {
             userDetails.put("gender", gender);
             userDetails.put("level", level);
 
-            userDoc.update(userDetails).addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void unused) {
-                    Log.d("Firebase", "Details updated:Success");
-                }
-            }).addOnFailureListener(new OnFailureListener() {
+            userDoc.update(userDetails).addOnSuccessListener(unused -> Log.d("Firebase", "Details updated:Success")).addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
 

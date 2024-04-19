@@ -1,5 +1,6 @@
 package edu.northeastern.numad24sp_group4unilink;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -27,11 +28,13 @@ import edu.northeastern.numad24sp_group4unilink.groups.CreateGroup;
 import edu.northeastern.numad24sp_group4unilink.groups.GroupsActivity;
 import edu.northeastern.numad24sp_group4unilink.messages.MessagesActivity;
 import edu.northeastern.numad24sp_group4unilink.profile.ProfileActivity;
+import edu.northeastern.numad24sp_group4unilink.profile.UpdateProfileActivity;
 
 public abstract class BaseActivity extends AppCompatActivity{
 
     CoordinatorLayout coordinatorLayout;
     BottomNavigationView navigationView;
+    public static boolean isLoggedInUser;
     @Override
     public void setContentView(View view){
         coordinatorLayout = (CoordinatorLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
@@ -121,14 +124,26 @@ public abstract class BaseActivity extends AppCompatActivity{
     public boolean onOptionsItemSelected(MenuItem item){
         int itemId = item.getItemId();
         if (itemId == R.id.messages) {
-            intentHelper(MessagesActivity.class);
+            Intent intent = new Intent(this, MessagesActivity.class);
+            String userEmail = getIntent().getStringExtra("userEmail");
+            String userId= getIntent().getStringExtra("userID");
+            intent.putExtra("userEmail", userEmail);
+            intent.putExtra("userID", userId);
+            intent.putExtra("NAV_ITEM_ID", itemId);
+            startActivity(intent);
 
         } else if (itemId == R.id.logout) {
 
-            FirebaseAuth.getInstance().signOut();
-            finish();
-            intentHelper(Login.class);
-            Toast.makeText(BaseActivity.this, "Logged out successfully!", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder = new AlertDialog.Builder(BaseActivity.this);
+            builder.setTitle("Logout").setMessage("Are you sure you want to logout?").setCancelable(false);
+            builder.setPositiveButton(android.R.string.yes, (dialog, which) -> {
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                intentHelper(Login.class);
+                Toast.makeText(BaseActivity.this, "Logged out successfully!", Toast.LENGTH_SHORT).show();
+            });
+            builder.setNegativeButton(android.R.string.no, null);
+            builder.show();
 
         }
         return true;
@@ -171,10 +186,12 @@ public abstract class BaseActivity extends AppCompatActivity{
     }
 
     public void openProfile(int itemId){
+        isLoggedInUser = true;
         Intent intent = new Intent(this, ProfileActivity.class);
         String userEmail = getIntent().getStringExtra("userEmail");
         String userId= getIntent().getStringExtra("userID");
         intent.putExtra("userEmail", userEmail);
+        intent.putExtra("email", userEmail);
         intent.putExtra("userID", userId);
         intent.putExtra("NAV_ITEM_ID", itemId);
         startActivity(intent);

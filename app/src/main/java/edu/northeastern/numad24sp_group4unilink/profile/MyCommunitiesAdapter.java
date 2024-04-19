@@ -1,8 +1,5 @@
 package edu.northeastern.numad24sp_group4unilink.profile;
 
-import static edu.northeastern.numad24sp_group4unilink.Login.loggedInUser;
-import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
-
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -13,15 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 
+import edu.northeastern.numad24sp_group4unilink.Login;
 import edu.northeastern.numad24sp_group4unilink.R;
 import edu.northeastern.numad24sp_group4unilink.community.Community;
 import edu.northeastern.numad24sp_group4unilink.community.ViewACommunity;
 
 public class MyCommunitiesAdapter extends RecyclerView.Adapter<MyCommunitiesHolder> {
-    private ArrayList<Community> communitiesList;
+    private final ArrayList<Community> communitiesList;
     private Context context;
 
     public MyCommunitiesAdapter(Context context, ArrayList<Community> communitiesList){
@@ -51,17 +51,19 @@ public class MyCommunitiesAdapter extends RecyclerView.Adapter<MyCommunitiesHold
             Glide.with((context)).load(R.drawable.community).into(holder.communityImage);
         }
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = holder.getAdapterPosition();
-                if (position != RecyclerView.NO_POSITION){
-                    Community clickedComm = communitiesList.get(position);
-                    Intent intent = new Intent(context, ViewACommunity.class);
-                    intent.putExtra("commTag", clickedComm.getTag());
-                    intent.putExtra("commId", clickedComm.getId());
-                    intent.putExtra("userId", mAuth.getCurrentUser().getUid());
+        holder.itemView.setOnClickListener(v -> {
+            int position1 = holder.getAdapterPosition();
+            if (position1 != RecyclerView.NO_POSITION){
+                Community clickedComm = communitiesList.get(position1);
+                Intent intent = new Intent(context, ViewACommunity.class);
+                intent.putExtra("commTag", clickedComm.getTag());
+                intent.putExtra("commId", clickedComm.getId());
+                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+                if(currentUser!= null){
+                    intent.putExtra("userId", currentUser.getUid());
                     context.startActivity(intent);
+                } else{
+                    context.startActivity(new Intent(context, Login.class));
                 }
             }
         });

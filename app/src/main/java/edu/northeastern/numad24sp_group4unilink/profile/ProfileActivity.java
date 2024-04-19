@@ -1,6 +1,6 @@
 package edu.northeastern.numad24sp_group4unilink.profile;
 
-import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
+import static edu.northeastern.numad24sp_group4unilink.Login.loggedInUser;
 import static edu.northeastern.numad24sp_group4unilink.Register.defaultPicUrl;
 
 import android.Manifest;
@@ -45,7 +45,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -59,6 +59,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import edu.northeastern.numad24sp_group4unilink.Login;
 import edu.northeastern.numad24sp_group4unilink.R;
@@ -68,14 +69,13 @@ import edu.northeastern.numad24sp_group4unilink.events.Event;
 
 public class ProfileActivity extends BaseActivity {
     ActivityProfileBinding activityProfileBinding;
-    private TextView firstName, lastName, aboutContent, genderContent, levelContent, emailContent;
+    private TextView firstName, lastName, aboutContent, genderContent, levelContent, emailContent, aboutHeader, genderHeader, levelHeader, emailHeader;
     private ImageView profilePic;
     private FirebaseFirestore userDB;
-    private FirebaseUser currentUser;
     private boolean isDeleteDialogOpen, isUpdateDialogOpen;
-    static public String currentUserDocId;
+    static public String currentUserDocId, email, userID;
     private ProgressBar progressBar;
-    private String loggedInUserId;
+    private FirebaseUser currentUser, signInUser;
 
     private MyEventsAdapter myEventsAdapter;
     private MyCommunitiesAdapter myCommunityAdapter;
@@ -100,29 +100,41 @@ public class ProfileActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
         navigationView = findViewById(R.id.bottomNavigationView);
+        if(!isLoggedInUser){
+            navigationView.setVisibility(View.GONE);
+        } else{
         int selectedItemId = getIntent().getIntExtra("NAV_ITEM_ID", R.id.home); // Default to home
         navigationView.setSelectedItemId(selectedItemId);
-        FirebaseApp.initializeApp(this);
-       userDB = FirebaseFirestore.getInstance();
-       currentUser = mAuth.getCurrentUser();
-       progressBar = findViewById(R.id.progressBarId);
-
-        // Retrieve user's email address from intent
-        loggedInUserId = getIntent().getStringExtra("userID");
-
-        if(loggedInUserId == getCurrentUserId()){
-            setUpHamburgerMenu();
         }
 
-        if(currentUser != null) {
+        userDB = FirebaseFirestore.getInstance();
+        progressBar = findViewById(R.id.progressBarId);
+        aboutHeader = findViewById(R.id.aboutHeaderID);
+        aboutContent = findViewById(R.id.aboutContentID);
+        genderHeader = findViewById(R.id.genderHeaderID);
+        genderContent = findViewById(R.id.genderContentID);
+        levelHeader = findViewById(R.id.levelHeaderID);
+        levelContent = findViewById(R.id.levelContentID);
+        emailHeader = findViewById(R.id.emailHeaderID);
+        emailContent = findViewById(R.id.emailContentID);
+        profilePic = findViewById(R.id.profilePicId);
+
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        email = getIntent().getStringExtra("email");
+
+        if(loggedInUser != null){
+            if(Objects.equals(loggedInUser.getEmail(), email)){
+                isLoggedInUser = true;
                 setUpHamburgerMenu();
-                setProfileDataUI();
-                myEvents();
-                myCommunities();
-                setupExpandableInfoListeners();
-                setUpActivityResultLaunchers();
-        }
+            }}
+
+        setUpActivityResultLaunchers();
+        initialSetup();
+
 
         if(savedInstanceState != null){
             isDeleteDialogOpen = savedInstanceState.getBoolean("isDeleteDialogOpen");
@@ -137,6 +149,37 @@ public class ProfileActivity extends BaseActivity {
 
     }
 
+    interface FireStoreCallback{
+        void onCallback();
+    }
+    private void initialSetup() {
+        progressBar.setVisibility(View.VISIBLE);
+
+        if(isLoggedInUser && loggedInUser != null){
+            email = loggedInUser.getEmail();
+        }
+
+        if (email != null) {
+            setProfileDataUI(email, new FireStoreCallback(){
+                @Override
+                public void onCallback() {
+                    if(currentUserDocId != null) {
+                        runOnUiThread(() -> {
+                            myEvents();
+                            myCommunities();
+                            setupExpandableInfoListeners();
+                            progressBar.setVisibility(View.GONE);
+                        });
+                    } else{
+                        startActivity(new Intent(ProfileActivity.this, Login.class));
+                    }
+                }
+            });
+        } else{
+            startActivity(new Intent(this, Login.class));
+        }
+    }
+
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -147,54 +190,62 @@ public class ProfileActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        setProfileDataUI();
+        if(email == null){
+            email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        }
+        initialSetup();
     }
 
-    private void setProfileDataUI() {
+    private void setProfileDataUI(String email, FireStoreCallback callback) {
         firstName = findViewById(R.id.firstNameId);
         lastName = findViewById(R.id.lastNameId);
 
-        if(currentUser!= null){
-            CollectionReference usersCollection = userDB.collection("users");
-            Query query = usersCollection.whereEqualTo("userID", getCurrentUserId());
+        CollectionReference usersCollection = userDB.collection("users");
+        Query query = usersCollection.whereEqualTo("email", email).limit(1);
 
-            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @SuppressLint("SetTextI18n")
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        QuerySnapshot querySnapshot = task.getResult();
-                        if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                            document = querySnapshot.getDocuments().get(0);
-                            String fName = document.getString("firstName");
-                            String lName = document.getString("lastName");
-                            String about = document.getString("about");
-                            String gender = document.getString("gender");
-                            String level = document.getString("level");
-                            String email = document.getString("email");
-                            String picUrl = document.getString("profilePic");
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        document = querySnapshot.getDocuments().get(0);
+                        String fName = document.getString("firstName");
+                        String lName = document.getString("lastName");
+                        String about = document.getString("about");
+                        String gender = document.getString("gender");
+                        String level = document.getString("level");
+                        String email = document.getString("email");
+                        String picUrl = document.getString("profilePic");
 
-                            firstName.setText(fName);
-                            lastName.setText(lName);
-                            aboutContent.setText(about);
-                            genderContent.setText(gender);
-                            levelContent.setText(level);
-                            emailContent.setText(email);
-                            Glide.with(ProfileActivity.this).load(picUrl).into(profilePic);
+                        firstName.setText(fName);
+                        lastName.setText(lName);
+                        aboutContent.setText(about);
+                        genderContent.setText(gender);
+                        levelContent.setText(level);
+                        emailContent.setText(email);
+                        Glide.with(ProfileActivity.this).load(picUrl).placeholder(R.drawable.default_profile_pic).error(R.drawable.default_profile_pic).into(profilePic);
 
-                            // stores the current user's document ID for future use
-                            currentUserDocId = document.getId();
-                        } else {
-                            Log.e("Firebase", "No such document exists.");
+                        // stores the current user's document ID for future use
+                        currentUserDocId = document.getId();
+
+
+                        if(callback != null){
+                            callback.onCallback();
                         }
 
                     } else {
-                        Log.w("Firebase", "Error getting user document", task.getException());
+                        Log.e("Firebase", "No such document exists.");
                     }
-                }
 
-            });
-        }
+                } else {
+                    Log.w("Firebase", "Error getting user document", task.getException());
+                }
+            }
+
+        });
+
     }
 
 
@@ -207,7 +258,7 @@ public class ProfileActivity extends BaseActivity {
         myEventsAdapter = new MyEventsAdapter(this, myEventsList);
         myEventsRecyclerView.setAdapter(myEventsAdapter);
 
-        userDB.collection("posts").whereArrayContains("attendees", getCurrentUserId()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        userDB.collection("posts").whereArrayContains("attendees", currentUserDocId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 myEventsList.clear();
@@ -238,7 +289,7 @@ public class ProfileActivity extends BaseActivity {
         myCommunityAdapter = new MyCommunitiesAdapter(this, myCommunitiesList);
         myCommunityRecyclerView.setAdapter(myCommunityAdapter);
 
-        userDB.collection("communities").whereArrayContains("users", getCurrentUserId()).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        userDB.collection("communities").whereArrayContains("users", currentUserDocId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 myCommunitiesList.clear();
@@ -261,15 +312,6 @@ public class ProfileActivity extends BaseActivity {
 
 
     private void setupExpandableInfoListeners() {
-        TextView aboutHeader = findViewById(R.id.aboutHeaderID);
-        aboutContent = findViewById(R.id.aboutContentID);
-        TextView genderHeader = findViewById(R.id.genderHeaderID);
-        genderContent = findViewById(R.id.genderContentID);
-        TextView levelHeader = findViewById(R.id.levelHeaderID);
-        levelContent = findViewById(R.id.levelContentID);
-        TextView emailHeader = findViewById(R.id.emailHeaderID);
-        emailContent = findViewById(R.id.emailContentID);
-
         aboutHeader.setOnClickListener(v -> contentVisibilityHelper(aboutContent));
         genderHeader.setOnClickListener(v -> contentVisibilityHelper(genderContent));
         levelHeader.setOnClickListener(v -> contentVisibilityHelper(levelContent));
@@ -290,7 +332,7 @@ public class ProfileActivity extends BaseActivity {
 
         PopupMenu popupMenu = new PopupMenu(this, hamBurgerBtn);
         popupMenu.getMenuInflater().inflate(R.menu.hamburger_profile_menu, popupMenu.getMenu());
-        
+
         popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -317,9 +359,8 @@ public class ProfileActivity extends BaseActivity {
     }
 
 
-
     private void setUpActivityResultLaunchers() {
-        profilePic = findViewById(R.id.profilePicId);
+
         cameraLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(), result -> {
                     if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
@@ -357,7 +398,7 @@ public class ProfileActivity extends BaseActivity {
                         pickFromCamera();
                     }
                 } else if (which == 1){
-                        pickFromGallery();
+                    pickFromGallery();
                 }else if (which == 2){
                     removeProfilePic();
                 }
@@ -413,7 +454,7 @@ public class ProfileActivity extends BaseActivity {
         galleryLauncher.launch("image/*")   ;
     }
 
-// removes current profile picture
+    // removes current profile picture
     private void removeProfilePic() {
         DocumentReference userDoc = userDB.collection("users").document(currentUserDocId);
         userDoc.update("profilePic", defaultPicUrl).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -434,14 +475,13 @@ public class ProfileActivity extends BaseActivity {
 
 
     private void editProfile() {
-                Intent intent = new Intent(ProfileActivity.this, UpdateProfileActivity.class);
-                Log.d("Profile", "First name:" + firstName.getText().toString());
-                intent.putExtra("firstName", firstName.getText().toString());
-                intent.putExtra("lastName", lastName.getText().toString());
-                intent.putExtra("about", aboutContent.getText().toString());
-                intent.putExtra("gender", genderContent.getText().toString());
-                intent.putExtra("level", levelContent.getText().toString());
-                startActivity(intent); // starts new activity
+        Intent intent = new Intent(ProfileActivity.this, UpdateProfileActivity.class);
+        intent.putExtra("firstName", firstName.getText().toString());
+        intent.putExtra("lastName", lastName.getText().toString());
+        intent.putExtra("about", aboutContent.getText().toString());
+        intent.putExtra("gender", genderContent.getText().toString());
+        intent.putExtra("level", levelContent.getText().toString());
+        startActivity(intent); // starts new activity
     }
 
     private void showDeleteDialog(){
@@ -479,7 +519,7 @@ public class ProfileActivity extends BaseActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Log.d("FireAuth", "Account deletion:Success");
-                                mAuth.signOut();
+                                FirebaseAuth.getInstance().signOut();
                                 finish();
                                 Intent intent = new Intent(getApplicationContext(), Login.class);
                                 startActivity(intent);
@@ -490,6 +530,9 @@ public class ProfileActivity extends BaseActivity {
                             }
                         }
                     });
+                }else{
+                    Log.d("Firebase", "Login : deleteProfile");
+                    startActivity(new Intent(ProfileActivity.this, Login.class));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
@@ -539,10 +582,5 @@ public class ProfileActivity extends BaseActivity {
                     });
         }
     }
-
-    private String getCurrentUserId(){
-        return currentUser.getUid();
-    }
-
 
 }
