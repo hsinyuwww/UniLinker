@@ -1,6 +1,6 @@
 package edu.northeastern.numad24sp_group4unilink.profile;
 
-import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
+import static edu.northeastern.numad24sp_group4unilink.Login.loggedInUser;
 import static edu.northeastern.numad24sp_group4unilink.Register.defaultPicUrl;
 
 import android.Manifest;
@@ -45,6 +45,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -58,6 +59,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import edu.northeastern.numad24sp_group4unilink.Login;
 import edu.northeastern.numad24sp_group4unilink.R;
@@ -101,15 +103,15 @@ public class ProfileActivity extends BaseActivity {
 
         FirebaseApp.initializeApp(this);
        userDB = FirebaseFirestore.getInstance();
-       currentUser = mAuth.getCurrentUser();
+       currentUser = FirebaseAuth.getInstance().getCurrentUser();
        progressBar = findViewById(R.id.progressBarId);
 
-        // Retrieve user's email address from intent
-        loggedInUserId = getIntent().getStringExtra("userID");
-
-        if(loggedInUserId == getCurrentUserId()){
+       if(loggedInUser != null && currentUser != null){
+        if(Objects.equals(loggedInUser.getEmail(), currentUser.getEmail())){
             setUpHamburgerMenu();
-        }
+        }} else{
+           startActivity(new Intent(this, Login.class));
+       }
 
         if(currentUser != null) {
                 setProfileDataUI();
@@ -117,6 +119,8 @@ public class ProfileActivity extends BaseActivity {
                 myCommunities();
                 setupExpandableInfoListeners();
                 setUpActivityResultLaunchers();
+        } else{
+            startActivity(new Intent(this, Login.class));
         }
 
         if(savedInstanceState != null){
@@ -189,6 +193,8 @@ public class ProfileActivity extends BaseActivity {
                 }
 
             });
+        }else{
+            startActivity(new Intent(this, Login.class));
         }
     }
 
@@ -474,7 +480,7 @@ public class ProfileActivity extends BaseActivity {
                         public void onComplete(@NonNull Task<Void> task) {
                             if(task.isSuccessful()){
                                 Log.d("FireAuth", "Account deletion:Success");
-                                mAuth.signOut();
+                                FirebaseAuth.getInstance().signOut();
                                 finish();
                                 Intent intent = new Intent(getApplicationContext(), Login.class);
                                 startActivity(intent);
@@ -485,6 +491,8 @@ public class ProfileActivity extends BaseActivity {
                             }
                         }
                     });
+                }else{
+                    startActivity(new Intent(ProfileActivity.this, Login.class));
                 }
             }
         }).addOnFailureListener(new OnFailureListener() {
