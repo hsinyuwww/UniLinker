@@ -1,5 +1,6 @@
 package edu.northeastern.numad24sp_group4unilink.Attendees;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +11,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import edu.northeastern.numad24sp_group4unilink.R;
-
+import edu.northeastern.numad24sp_group4unilink.events.ViewEventActivity;
+import edu.northeastern.numad24sp_group4unilink.profile.ProfileActivity;
 
 
 public class AttendeesAdapter extends RecyclerView.Adapter<AttendeesHolder>{
@@ -40,6 +42,14 @@ public class AttendeesAdapter extends RecyclerView.Adapter<AttendeesHolder>{
 
 
         holder.userEmail.setText(currentItem.getUserEmail());
+        holder.userEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), ProfileActivity.class);
+                intent.putExtra("email", holder.userEmail.getText().toString());
+                v.getContext().startActivity(intent);
+            }
+        });
 
     }
 
