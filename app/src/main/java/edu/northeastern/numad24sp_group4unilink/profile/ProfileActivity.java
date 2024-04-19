@@ -73,9 +73,9 @@ public class ProfileActivity extends BaseActivity {
     private ImageView profilePic;
     private FirebaseFirestore userDB;
     private boolean isDeleteDialogOpen, isUpdateDialogOpen;
-    static public String currentUserDocId, email;
+    static public String currentUserDocId, email, userID;
     private ProgressBar progressBar;
-    private FirebaseUser currentUser;
+    private FirebaseUser currentUser, signInUser;
 
     private MyEventsAdapter myEventsAdapter;
     private MyCommunitiesAdapter myCommunityAdapter;
@@ -101,11 +101,14 @@ public class ProfileActivity extends BaseActivity {
             return insets;
         });
 
-        /*
+
         navigationView = findViewById(R.id.bottomNavigationView);
+        if(!isLoggedInUser){
+            navigationView.setVisibility(View.GONE);
+        } else{
         int selectedItemId = getIntent().getIntExtra("NAV_ITEM_ID", R.id.home); // Default to home
         navigationView.setSelectedItemId(selectedItemId);
-         */
+        }
 
         userDB = FirebaseFirestore.getInstance();
         progressBar = findViewById(R.id.progressBarId);
@@ -123,12 +126,15 @@ public class ProfileActivity extends BaseActivity {
 
         email = getIntent().getStringExtra("email");
 
+        if(loggedInUser != null){
+            if(Objects.equals(loggedInUser.getEmail(), email)){
+                isLoggedInUser = true;
+                setUpHamburgerMenu();
+            }}
+
         setUpActivityResultLaunchers();
         initialSetup();
 
-        if(Objects.equals(loggedInUser.getEmail(), email)){
-            setUpHamburgerMenu();
-        }
 
         if(savedInstanceState != null){
             isDeleteDialogOpen = savedInstanceState.getBoolean("isDeleteDialogOpen");
@@ -149,8 +155,8 @@ public class ProfileActivity extends BaseActivity {
     private void initialSetup() {
         progressBar.setVisibility(View.VISIBLE);
 
-        if(email == null){
-            email = FirebaseAuth.getInstance().getCurrentUser().getEmail();
+        if(isLoggedInUser && loggedInUser != null){
+            email = loggedInUser.getEmail();
         }
 
         if (email != null) {
@@ -165,13 +171,13 @@ public class ProfileActivity extends BaseActivity {
                             progressBar.setVisibility(View.GONE);
                         });
                     } else{
-                        Log.d("Firebase", "Login : initialSetup1");
+                        Log.e("Firebase", "error1");
                         startActivity(new Intent(ProfileActivity.this, Login.class));
                     }
                 }
             });
         } else{
-            Log.d("Firebase", "Login : initialSetup2");
+            Log.e("Firebase", "error2");
             startActivity(new Intent(this, Login.class));
         }
     }
@@ -221,12 +227,10 @@ public class ProfileActivity extends BaseActivity {
                         genderContent.setText(gender);
                         levelContent.setText(level);
                         emailContent.setText(email);
-                        Log.d("Firebase", "picUrl info : " + picUrl);
                         Glide.with(ProfileActivity.this).load(picUrl).placeholder(R.drawable.default_profile_pic).error(R.drawable.default_profile_pic).into(profilePic);
 
                         // stores the current user's document ID for future use
                         currentUserDocId = document.getId();
-                        Log.d("Firebase", "currentUserDocId info setProfileDataUI : " + currentUserDocId);
 
 
                         if(callback != null){
@@ -256,7 +260,6 @@ public class ProfileActivity extends BaseActivity {
         myEventsAdapter = new MyEventsAdapter(this, myEventsList);
         myEventsRecyclerView.setAdapter(myEventsAdapter);
 
-        Log.d("Firebase", "currentUserDocId info : " + currentUserDocId);
         userDB.collection("posts").whereArrayContains("attendees", currentUserDocId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -475,7 +478,6 @@ public class ProfileActivity extends BaseActivity {
 
     private void editProfile() {
         Intent intent = new Intent(ProfileActivity.this, UpdateProfileActivity.class);
-        Log.d("Profile", "First name:" + firstName.getText().toString());
         intent.putExtra("firstName", firstName.getText().toString());
         intent.putExtra("lastName", lastName.getText().toString());
         intent.putExtra("about", aboutContent.getText().toString());

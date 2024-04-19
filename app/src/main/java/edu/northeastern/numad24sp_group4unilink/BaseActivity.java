@@ -32,6 +32,7 @@ public abstract class BaseActivity extends AppCompatActivity{
 
     CoordinatorLayout coordinatorLayout;
     BottomNavigationView navigationView;
+    public static boolean isLoggedInUser;
     @Override
     public void setContentView(View view){
         coordinatorLayout = (CoordinatorLayout) getLayoutInflater().inflate(R.layout.activity_base, null);
@@ -171,6 +172,7 @@ public abstract class BaseActivity extends AppCompatActivity{
     }
 
     public void openProfile(int itemId){
+        isLoggedInUser = true;
         Intent intent = new Intent(this, ProfileActivity.class);
         String userEmail = getIntent().getStringExtra("userEmail");
         String userId= getIntent().getStringExtra("userID");

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 import edu.northeastern.numad24sp_group4unilink.R;
-import edu.northeastern.numad24sp_group4unilink.events.ViewEventActivity;
+import static edu.northeastern.numad24sp_group4unilink.BaseActivity.isLoggedInUser;
 import edu.northeastern.numad24sp_group4unilink.profile.ProfileActivity;
 
 
@@ -45,6 +45,7 @@ public class AttendeesAdapter extends RecyclerView.Adapter<AttendeesHolder>{
         holder.userEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isLoggedInUser = false;
                 Intent intent = new Intent(v.getContext(), ProfileActivity.class);
                 intent.putExtra("email", holder.userEmail.getText().toString());
                 v.getContext().startActivity(intent);
