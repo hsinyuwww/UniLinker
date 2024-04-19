@@ -183,9 +183,7 @@ public class ChatActivity extends AppCompatActivity {
                 });
     }
 
-    /**
-     * 查询历史聊天数据
-     */
+
     private void getChatHistory() {
         int isBig = sendUserEmail.compareTo(formUserEmail);
         String documentId = formUserEmail+"+"+ sendUserEmail;
