@@ -1,5 +1,7 @@
 package edu.northeastern.numad24sp_group4unilink.profile;
 
+import static edu.northeastern.numad24sp_group4unilink.profile.ProfileActivity.email;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -59,15 +61,8 @@ public class MyEventsAdapter extends RecyclerView.Adapter<MyEventsHolder> {
                 Event clickedEvent = eventsList.get(position1);
                 Intent intent = new Intent(context, ViewEventActivity.class);
                 intent.putExtra("postId", clickedEvent.getDocumentId());
-
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if(currentUser!= null){
-                    intent.putExtra("userEmail", FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                    intent.putExtra("userId", currentUser.getUid());
-                    context.startActivity(intent);
-                } else{
-                    context.startActivity(new Intent(context, Login.class));
-                }
+                intent.putExtra("userEmail", email);
+                context.startActivity(intent);
             }
         });
     }
