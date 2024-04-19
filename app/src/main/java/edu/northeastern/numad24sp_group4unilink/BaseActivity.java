@@ -2,6 +2,7 @@ package edu.northeastern.numad24sp_group4unilink;
 
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -77,13 +78,19 @@ public abstract class BaseActivity extends AppCompatActivity{
             if (itemId == R.id.addEvent) {
                 Intent intent = new Intent(this, CreateEvent.class);
                 String userEmail = getIntent().getStringExtra("userEmail");
-                String userId= getIntent().getStringExtra("userId");
+                String userId= getIntent().getStringExtra("userID");
                 intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
-                intent.putExtra("userId", userId);
+                intent.putExtra("userID", userId);
                 intent.putExtra("EVENTS_TYPE","ALL_EVENTS" );
                 startActivity(intent);
             } else if (itemId == R.id.addGroup) {
                 intentHelper(CreateGroup.class);
+                Intent intent = new Intent(this, CreateGroup.class);
+                String userEmail = getIntent().getStringExtra("userEmail");
+                String userId= getIntent().getStringExtra("userID");
+                intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
+                intent.putExtra("userID", userId);
+                startActivity(intent);
 
             }
             return true;
@@ -123,9 +130,9 @@ public abstract class BaseActivity extends AppCompatActivity{
 
         Intent intent = new Intent(this, MainActivity.class);
         String userEmail = getIntent().getStringExtra("userEmail");
-        String userId= getIntent().getStringExtra("userId");
+        String userId= getIntent().getStringExtra("userID");
         intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
-        intent.putExtra("userId", userId);
+        intent.putExtra("userID", userId);
         intent.putExtra("EVENTS_TYPE","ALL_EVENTS" );
         startActivity(intent);
     }
@@ -133,19 +140,30 @@ public abstract class BaseActivity extends AppCompatActivity{
     public void openEvents(){
         Intent intent = new Intent(this, EventsActivity.class);
         String userEmail = getIntent().getStringExtra("userEmail");
-        String userId= getIntent().getStringExtra("userId");
+        String userId= getIntent().getStringExtra("userID");
         intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
-        intent.putExtra("userId", userId);
+        intent.putExtra("userID", userId);
         intent.putExtra("EVENTS_TYPE","MY_EVENTS" );
         startActivity(intent);
     }
 
     public void openGroups(){
-        intentHelper(GroupsActivity.class);
+
+        Intent intent = new Intent(this, GroupsActivity.class);
+        String userEmail = getIntent().getStringExtra("userEmail");
+        String userId= getIntent().getStringExtra("userID");
+        intent.putExtra("userEmail", userEmail);
+        intent.putExtra("userID", userId);
+        startActivity(intent);
     }
 
     public void openProfile(){
-        intentHelper(ProfileActivity.class);
+        Intent intent = new Intent(this, ProfileActivity.class);
+        String userEmail = getIntent().getStringExtra("userEmail");
+        String userId= getIntent().getStringExtra("userID");
+        intent.putExtra("userEmail", userEmail);
+        intent.putExtra("userID", userId);
+        startActivity(intent);
     }
 
     private void intentHelper(Class<?> activityClass){

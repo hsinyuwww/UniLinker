@@ -52,7 +52,7 @@ public class EventsActivity extends BaseActivity {
 
     public String userEmail, userID, EVENTS_TYPE;
     ActivityEventsBinding activityEventsBinding;
-    private static final int EDIT_EVENT_REQUEST_CODE = 1001;
+
 
 
     @Override
@@ -318,14 +318,7 @@ public class EventsActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == EDIT_EVENT_REQUEST_CODE && resultCode == RESULT_OK) {
-            // Reload your events list or specific item
-            callEventsList();  // This might reload all data; consider optimizing
-        }
-    }
+
 
     public void deletePost(String postId, Integer position, DeleteCallback callback){
 
