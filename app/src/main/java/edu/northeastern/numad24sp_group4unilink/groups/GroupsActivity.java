@@ -16,6 +16,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -48,7 +49,7 @@ import edu.northeastern.numad24sp_group4unilink.events.ViewEventActivity;
 public class GroupsActivity extends BaseActivity {
     private ArrayList<GroupsItem> communityList = new ArrayList<>();
     private RecyclerView recyclerView;
-
+    private int selectedItemId;
     private CollectionReference groupsRef;
     private GroupsAdapter groupsAdapter;
     private FirebaseFirestore db;
@@ -57,7 +58,7 @@ public class GroupsActivity extends BaseActivity {
     private static final String NUMBER_OF_ITEMS = "NUMBER_OF_ITEMS";
 
     public String userEmail, userID;
-
+    BottomNavigationView navigationView;
     ActivityGroupsBinding activityGroupsBinding;
 
     @Override
@@ -73,6 +74,9 @@ public class GroupsActivity extends BaseActivity {
         });
 
         Intent intent = getIntent();
+        navigationView = findViewById(R.id.bottomNavigationView);
+        selectedItemId = intent.getIntExtra("NAV_ITEM_ID", R.id.home); // Default to home
+        navigationView.setSelectedItemId(selectedItemId);
 
         userEmail = intent.getStringExtra("userEmail");
         userID =  intent.getStringExtra("userID");
@@ -224,7 +228,7 @@ public class GroupsActivity extends BaseActivity {
 
             @Override
             public void onCommunityClick(int position) {
-                communityList.get(position).onJoinClick(position);
+                communityList.get(position).onCommunityClick(position);
                 GroupsItem group = communityList.get(position);
                 String communityID = group.getGroupID();
                 String tag = group.getTitle();
@@ -234,6 +238,9 @@ public class GroupsActivity extends BaseActivity {
                 intent.putExtra("commTag", tag);
                 intent.putExtra("userId", userID);
                 intent.putExtra("imageURL", imageUrl);
+                intent.putExtra("userEmail", userEmail);
+                intent.putExtra("NAV_ITEM_ID", selectedItemId );
+
                 startActivity(intent);
             }
 
