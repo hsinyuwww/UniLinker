@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Title and Date in the same row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/communityName"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/alatsi"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Community Name" />
+
+            <TextView
+                android:id="@+id/communityID"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:fontFamily="@font/alatsi"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                tools:text="Community ID"
+                android:visibility="invisible"/>
+            <!-- Spacer View to push icons to the right -->
+            <View
+                android:layout_width="0dp"
+                android:layout_height="15dp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/buttonJoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Join"
+                android:textSize="12sp"
+                android:layout_marginRight="10dp"/>
+
+        </LinearLayout>
+
+        <!-- Description without a label -->
+
+        <!-- Event Image -->
+        <ImageView
+            android:id="@+id/imageCommunity"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/community" />
+
+
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>

@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-        android:text="Enter community name"
+        android:hint="Enter Community Name"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView" />
@@ -50,5 +50,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@+id/commName"
         app:layout_constraintTop_toBottomOf="@+id/commName" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
