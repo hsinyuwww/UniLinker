@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 import edu.northeastern.numad24sp_group4unilink.R;
+import edu.northeastern.numad24sp_group4unilink.groups.GroupsInterface;
 
 
 public class EventHolder extends RecyclerView.ViewHolder {
@@ -135,4 +136,5 @@ public class EventHolder extends RecyclerView.ViewHolder {
 
 
     }
+
 }

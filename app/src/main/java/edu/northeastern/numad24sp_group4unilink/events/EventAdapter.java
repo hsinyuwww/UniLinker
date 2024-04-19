@@ -53,7 +53,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventHolder>{
 
             holder.edit.setVisibility(View.VISIBLE);
             holder.delete.setVisibility(View.VISIBLE);
-        }else if(EVENTS_TYPE.equals("ATTENDING_EVENTS")){
+        }else if(EVENTS_TYPE.equals("COMMUNITY_EVENTS")){
 
             holder.edit.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
@@ -80,13 +80,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventHolder>{
                 Log.v("Inside else: ", "p");
             }
         }
-        /*if (imageUrl != null && imageUrl!="") {
-            Glide.with(holder.itemView.getContext())
-                    .load(imageUrl)
-                    .into(holder.image);
-        } else {
-            // Handle null case or set a default image
-        }*/
+
 
     }
 
