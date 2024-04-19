@@ -175,6 +175,7 @@ public abstract class BaseActivity extends AppCompatActivity{
         String userEmail = getIntent().getStringExtra("userEmail");
         String userId= getIntent().getStringExtra("userID");
         intent.putExtra("userEmail", userEmail);
+        intent.putExtra("email", userEmail);
         intent.putExtra("userID", userId);
         intent.putExtra("NAV_ITEM_ID", itemId);
         startActivity(intent);
