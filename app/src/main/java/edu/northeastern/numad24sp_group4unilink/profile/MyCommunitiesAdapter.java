@@ -1,5 +1,7 @@
 package edu.northeastern.numad24sp_group4unilink.profile;
 
+import static edu.northeastern.numad24sp_group4unilink.profile.ProfileActivity.email;
+
 import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
@@ -56,15 +58,12 @@ public class MyCommunitiesAdapter extends RecyclerView.Adapter<MyCommunitiesHold
             if (position1 != RecyclerView.NO_POSITION){
                 Community clickedComm = communitiesList.get(position1);
                 Intent intent = new Intent(context, ViewACommunity.class);
+
                 intent.putExtra("commTag", clickedComm.getTag());
                 intent.putExtra("commId", clickedComm.getId());
-                FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
-                if(currentUser!= null){
-                    intent.putExtra("userId", currentUser.getUid());
-                    context.startActivity(intent);
-                } else{
-                    context.startActivity(new Intent(context, Login.class));
-                }
+                intent.putExtra("imageURL", imageUrl);
+                intent.putExtra("userEmail", email);
+                context.startActivity(intent);
             }
         });
     }
