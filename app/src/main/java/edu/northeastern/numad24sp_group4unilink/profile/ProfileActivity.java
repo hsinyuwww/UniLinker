@@ -171,13 +171,11 @@ public class ProfileActivity extends BaseActivity {
                             progressBar.setVisibility(View.GONE);
                         });
                     } else{
-                        Log.e("Firebase", "error1");
                         startActivity(new Intent(ProfileActivity.this, Login.class));
                     }
                 }
             });
         } else{
-            Log.e("Firebase", "error2");
             startActivity(new Intent(this, Login.class));
         }
     }

@@ -82,8 +82,6 @@ public class UpdateProfileActivity extends BaseActivity {
         String gender = intent.getStringExtra("gender");
         String level = intent.getStringExtra("level");
 
-        Log.d("Update Profile", "First name:" + firstname);
-
         editTextFirstName = findViewById(R.id.editTextFirstName);
         editTextLastName = findViewById(R.id.editTextLastName);
         editTextAbout = findViewById(R.id.editTextAbout);
