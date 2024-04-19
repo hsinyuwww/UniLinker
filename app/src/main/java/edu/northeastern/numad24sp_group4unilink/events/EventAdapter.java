@@ -53,13 +53,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventHolder>{
 
             holder.edit.setVisibility(View.VISIBLE);
             holder.delete.setVisibility(View.VISIBLE);
+
         }else if(EVENTS_TYPE.equals("COMMUNITY_EVENTS")){
 
             holder.edit.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
+
         }else if(EVENTS_TYPE.equals("ALL_EVENTS")){
             holder.edit.setVisibility(View.GONE);
             holder.delete.setVisibility(View.GONE);
+
         }
 
         String imageUrl = currentItem.getImage();

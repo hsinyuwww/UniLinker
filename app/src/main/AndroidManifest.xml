@@ -57,15 +57,18 @@
             android:exported="false" />
         <activity
             android:name=".profile.ProfileActivity"
+            android:launchMode="singleTop"
             android:exported="false" />
         <activity
             android:name=".messages.MessagesActivity"
             android:exported="false" />
         <activity
             android:name=".groups.GroupsActivity"
+            android:launchMode="singleTop"
             android:exported="false" />
         <activity
             android:name=".events.EventsActivity"
+            android:launchMode="singleTop"
             android:exported="false" />
         <activity
             android:name=".events.EditEvent"
@@ -87,6 +90,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:launchMode="singleTop"
             android:exported="false" />
 
         <meta-data

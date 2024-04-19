@@ -7,47 +7,59 @@
     android:layout_height="match_parent"
     tools:context=".community.ViewACommunity">
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Posts in community : "
-        app:layout_constraintBottom_toTopOf="@+id/spinner"
+
+    <ImageView
+        android:id="@+id/communityImage"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:src="@drawable/community"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5" />
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/spinnerUsers"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView4"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Spinner
         android:id="@+id/spinnerUsers"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/joinComm"
+        android:background="@drawable/button_style"
+        android:gravity="center"
+        android:padding="8dp"
+
+        android:textAlignment="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spinner"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintTop_toBottomOf="@+id/joinComm"
+        app:layout_constraintVertical_bias="0.037" />
 
     <Button
         android:id="@+id/joinComm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Join community"
+        android:text="Join Community"
+        android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/communityImage"
+        app:layout_constraintVertical_bias="0.037" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/commEventsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerUsers"
-        app:layout_constraintVertical_bias="0.5" />
+        app:layout_constraintVertical_bias="0.0" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>
