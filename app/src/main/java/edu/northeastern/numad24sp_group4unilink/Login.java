@@ -22,7 +22,7 @@ import java.util.Objects;
 
 
 public class Login extends AppCompatActivity {
-    public FirebaseAuth mAuth;
+    public static FirebaseAuth mAuth;
     private String email, password;
     private EditText emailText, passwordText;
     private ProgressBar progressBar;
