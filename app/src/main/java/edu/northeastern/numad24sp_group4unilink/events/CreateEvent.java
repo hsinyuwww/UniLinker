@@ -49,6 +49,7 @@ import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -74,6 +75,7 @@ public class CreateEvent extends BaseActivity {
     private Uri selectedImageUri;
     private StorageReference storageReference;
     private CollectionReference eventsRef;
+    private BottomNavigationView navigationView;
     ActivityResultLauncher<PickVisualMediaRequest> imagePickerLauncher = registerForActivityResult(
             new ActivityResultContracts.PickVisualMedia(),
             result -> {
@@ -98,6 +100,9 @@ public class CreateEvent extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        navigationView = findViewById(R.id.bottomNavigationView);
+        navigationView.setVisibility(View.GONE);
 
         editTextEventTitle=findViewById(R.id.eventTitle);
         editTextEventDesc=findViewById(R.id.eventDesc);

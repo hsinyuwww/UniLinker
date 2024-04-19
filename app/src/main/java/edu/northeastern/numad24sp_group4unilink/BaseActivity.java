@@ -47,20 +47,26 @@ public abstract class BaseActivity extends AppCompatActivity{
             int itemId = item.getItemId();
             if (itemId == R.id.home) {
                 // Handle home action
-                openHome();
+                openHome(itemId);
+
             } else if (itemId == R.id.events) {
                 // Handle events action
-                openEvents();
+                openEvents(itemId);
+
             } else if (itemId == R.id.fab) {
                 View menuItemView = findViewById(R.id.fab);
                 openAdd(menuItemView);
+
             } else if (itemId == R.id.groups) {
                 // Handle groups action
-                openGroups();
+                openGroups(itemId);
+
             } else if (itemId == R.id.profile) {
                 // Handle profile action
-                openProfile();
+                openProfile(itemId);
+
             }
+            item.setChecked(true); // Ensure the item is visually marked as selected.
             return true; // return true to indicate you've handled the selection
         });
 
@@ -79,6 +85,7 @@ public abstract class BaseActivity extends AppCompatActivity{
                 Intent intent = new Intent(this, CreateEvent.class);
                 String userEmail = getIntent().getStringExtra("userEmail");
                 String userId= getIntent().getStringExtra("userID");
+                intent.putExtra("NAV_ITEM_ID", itemId);
                 intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
                 intent.putExtra("userID", userId);
                 intent.putExtra("EVENTS_TYPE","ALL_EVENTS" );
@@ -90,6 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity{
                 String userId= getIntent().getStringExtra("userID");
                 intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
                 intent.putExtra("userID", userId);
+                intent.putExtra("NAV_ITEM_ID", itemId);
                 startActivity(intent);
 
             }
@@ -126,43 +134,49 @@ public abstract class BaseActivity extends AppCompatActivity{
         return true;
 
     }
-    public void openHome(){
+    public void openHome(int itemId){
 
         Intent intent = new Intent(this, MainActivity.class);
         String userEmail = getIntent().getStringExtra("userEmail");
         String userId= getIntent().getStringExtra("userID");
         intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
         intent.putExtra("userID", userId);
+        intent.putExtra("NAV_ITEM_ID", itemId);
         intent.putExtra("EVENTS_TYPE","ALL_EVENTS" );
         startActivity(intent);
     }
 
-    public void openEvents(){
+
+
+    public void openEvents(int itemId){
         Intent intent = new Intent(this, EventsActivity.class);
         String userEmail = getIntent().getStringExtra("userEmail");
         String userId= getIntent().getStringExtra("userID");
         intent.putExtra("userEmail", userEmail); // Pass the user's email address to CreatePost activity
         intent.putExtra("userID", userId);
+        intent.putExtra("NAV_ITEM_ID", itemId);
         intent.putExtra("EVENTS_TYPE","MY_EVENTS" );
         startActivity(intent);
     }
 
-    public void openGroups(){
+    public void openGroups(int itemId){
 
         Intent intent = new Intent(this, GroupsActivity.class);
         String userEmail = getIntent().getStringExtra("userEmail");
         String userId= getIntent().getStringExtra("userID");
         intent.putExtra("userEmail", userEmail);
         intent.putExtra("userID", userId);
+        intent.putExtra("NAV_ITEM_ID", itemId);
         startActivity(intent);
     }
 
-    public void openProfile(){
+    public void openProfile(int itemId){
         Intent intent = new Intent(this, ProfileActivity.class);
         String userEmail = getIntent().getStringExtra("userEmail");
         String userId= getIntent().getStringExtra("userID");
         intent.putExtra("userEmail", userEmail);
         intent.putExtra("userID", userId);
+        intent.putExtra("NAV_ITEM_ID", itemId);
         startActivity(intent);
     }
 
@@ -170,4 +184,5 @@ public abstract class BaseActivity extends AppCompatActivity{
         Intent intent = new Intent(getApplicationContext(), activityClass);
         startActivity(intent); // starts new activity
     }
+
 }

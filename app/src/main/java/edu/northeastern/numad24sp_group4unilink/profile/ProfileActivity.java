@@ -44,6 +44,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -86,6 +87,7 @@ public class ProfileActivity extends BaseActivity {
     private static final int CAMERA_REQUEST = 100;
     private DocumentSnapshot document;
     private Uri imageuri;
+    BottomNavigationView navigationView;
     private ActivityResultLauncher<Intent> cameraLauncher;
     private ActivityResultLauncher<String> galleryLauncher;
 
@@ -100,7 +102,9 @@ public class ProfileActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-
+        navigationView = findViewById(R.id.bottomNavigationView);
+        int selectedItemId = getIntent().getIntExtra("NAV_ITEM_ID", R.id.home); // Default to home
+        navigationView.setSelectedItemId(selectedItemId);
         FirebaseApp.initializeApp(this);
        userDB = FirebaseFirestore.getInstance();
        currentUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -114,6 +118,7 @@ public class ProfileActivity extends BaseActivity {
        }
 
         if(currentUser != null) {
+                setUpHamburgerMenu();
                 setProfileDataUI();
                 myEvents();
                 myCommunities();

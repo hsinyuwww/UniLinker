@@ -19,10 +19,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import org.checkerframework.common.subtyping.qual.Bottom;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -53,7 +56,7 @@ public class EventsActivity extends BaseActivity {
     public String userEmail, userID, EVENTS_TYPE;
     ActivityEventsBinding activityEventsBinding;
 
-
+    BottomNavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +69,10 @@ public class EventsActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        navigationView = findViewById(R.id.bottomNavigationView);
+        int selectedItemId = getIntent().getIntExtra("NAV_ITEM_ID", R.id.home); // Default to home
+        navigationView.setSelectedItemId(selectedItemId);
+
         Intent intent = getIntent();
 
         userEmail = intent.getStringExtra("userEmail");

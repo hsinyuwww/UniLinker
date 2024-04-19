@@ -1,18 +1,22 @@
 package edu.northeastern.numad24sp_group4unilink.messages;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import edu.northeastern.numad24sp_group4unilink.BaseActivity;
 import edu.northeastern.numad24sp_group4unilink.R;
 import edu.northeastern.numad24sp_group4unilink.databinding.ActivityMessagesBinding;
 public class MessagesActivity extends BaseActivity {
 
     ActivityMessagesBinding messagesBinding;
-
+    BottomNavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,6 +28,9 @@ public class MessagesActivity extends BaseActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+        navigationView = findViewById(R.id.bottomNavigationView);
+        navigationView.setVisibility(View.GONE);
 
 
 
