@@ -1,14 +1,14 @@
 # Mobile App development Project - Group 4
 
-Dheekksha Rajesh Babu
-Vinoothna Gangadasu
-Hsin-Yu Wen
-Bini Chandra
+- Dheekksha Rajesh Babu
+- Vinoothna Gangadasu
+- Hsin-Yu Wen
+- Bini Chandra
 
 ## A Campus Social Media App: UniLinker
 “Connect, Collaborate, and Create Your Campus Community” —From UniLinker
 
-###Description: 
+## Description: 
 
 UniLinker is your go-to-app for making the most of campus life. Imagine finding the perfect group for study sessions, weekend games, workouts, or just relaxing coffee talks - that’s what we’re here for. Setting up your profile is easy, and in no time, you’ll be discovering folks on campus who are into the same things as you are.You'll always know what’s happening. So ready to dive into campus life?
 Let’s make the connections happen!
@@ -63,35 +63,35 @@ Camera for profile picture
 
 ## Contributions: 
 
-* Hsin-Yu Wen:
-wen.hsi@northeastern.edu
-Github: hsinyuwww
+* **Hsin-Yu Wen:**
+* wen.hsi@northeastern.edu
+* Github: hsinyuwww
 Messages & chat activity
 - searching users 
 - showing the chat list
 - entering a chat, sending a message, and the real-time update of chat view.
 
-* Bini Chandra:
-chandra.bi@northeastern.edu
-Github: Bini-C
+* **Bini Chandra:**
+* chandra.bi@northeastern.edu
+* Github: Bini-C
 - Register, login, and logout activities/functionalities (Firebase User Authentication)
 - Profile activity, update profile data, and delete profile functionality.
 - Upload profile picture functionality -camera, gallery, remove picture (Firebase Storage)
 - Added recycler viewer to display myCommunities & myevents on profile page
 - Added other users' profile viewing functionality
 
-* Vinoothna Gangadasu:
-gangadasu.v@northeastern.edu
-Github: Vinoothna99
+* **Vinoothna Gangadasu:**
+* gangadasu.v@northeastern.edu
+* Github: Vinoothna99
 - Top and Bottom Navigation Bars in a Base Activity 
 - ⁠Added App Logo
 - ⁠Layout design -Recycler views for Events, Communities, Attendees and Comments
 - ⁠Layout design -Create and Edit events, Create Communities, View a Community
 - ⁠Implemented calendar intent functionality to add events to google calendar app
 
-* Dheekksha Rajesh Babu: 
-rajeshbabu.d@northeastern.edu
-Github: dheekkshaR
+* **Dheekksha Rajesh Babu:** 
+* rajeshbabu.d@northeastern.edu
+* Github: dheekkshaR
 - DB schema design for events, comments, communities.
 - Implemented add event with image from firebase storage, edit event, delete event, attend event (add attendee), add comment, view comments, view attendees, create community, filter posts in community, filter posts for author.
 - View event details and google maps intent for location.
