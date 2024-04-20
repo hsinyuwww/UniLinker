@@ -14,7 +14,7 @@ UniLinker is your go-to-app for making the most of campus life. Imagine finding 
 Let’s make the connections happen!
 
 
-##Features:
+## Features:
 Updated features list: added features regarding communities and calendar, added messaging, profile special features etc after taking feedback from Prof after P1 submission)
 
 * User auth:
@@ -63,7 +63,7 @@ Camera for profile picture
 
 ## Contributions: 
 
-* **Hsin-Yu Wen:**
+### **Hsin-Yu Wen:**
 * wen.hsi@northeastern.edu
 * Github: hsinyuwww
 Messages & chat activity
@@ -71,7 +71,7 @@ Messages & chat activity
 - showing the chat list
 - entering a chat, sending a message, and the real-time update of chat view.
 
-* **Bini Chandra:**
+### **Bini Chandra:**
 * chandra.bi@northeastern.edu
 * Github: Bini-C
 - Register, login, and logout activities/functionalities (Firebase User Authentication)
@@ -80,7 +80,7 @@ Messages & chat activity
 - Added recycler viewer to display myCommunities & myevents on profile page
 - Added other users' profile viewing functionality
 
-* **Vinoothna Gangadasu:**
+### **Vinoothna Gangadasu:**
 * gangadasu.v@northeastern.edu
 * Github: Vinoothna99
 - Top and Bottom Navigation Bars in a Base Activity 
@@ -89,7 +89,7 @@ Messages & chat activity
 - ⁠Layout design -Create and Edit events, Create Communities, View a Community
 - ⁠Implemented calendar intent functionality to add events to google calendar app
 
-* **Dheekksha Rajesh Babu:** 
+### **Dheekksha Rajesh Babu:** 
 * rajeshbabu.d@northeastern.edu
 * Github: dheekkshaR
 - DB schema design for events, comments, communities.
