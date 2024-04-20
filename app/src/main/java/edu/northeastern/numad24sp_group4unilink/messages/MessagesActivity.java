@@ -18,6 +18,7 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
@@ -61,7 +62,7 @@ public class MessagesActivity extends BaseActivity {
         messagesBinding.btSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email = messagesBinding.etSearch.getText().toString();
+                String email = messagesBinding.etSearch.getText().toString().trim();
                 String myUser = mAuth.getCurrentUser().getEmail();
                 if (email.equals(myUser)) {
                     Toast.makeText(MessagesActivity.this, "This user is themselves", Toast.LENGTH_SHORT).show();
@@ -91,7 +92,7 @@ public class MessagesActivity extends BaseActivity {
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 String email = (String) document.getData().get("email");
                                 String firstName = (String) document.getData().get("firstName");
