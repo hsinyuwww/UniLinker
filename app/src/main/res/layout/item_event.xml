@@ -74,6 +74,11 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="14sp"
+                android:clickable="true"
+                android:focusable="true"
+                android:autoLink="map"
+                android:textColor="@color/secondaryDarkColor"
+                android:background="?attr/selectableItemBackground"
                 tools:text="123 Main St, City, Country, This might be a really long location name" />
 
         </LinearLayout>
