@@ -26,6 +26,9 @@
             android:textSize="16sp"
             android:clickable="true"
             android:focusable="true"
+            android:autoLink="map"
+            android:textColor="@color/secondaryDarkColor"
+            android:background="?attr/selectableItemBackground"
             android:text="Username" />
 
 
