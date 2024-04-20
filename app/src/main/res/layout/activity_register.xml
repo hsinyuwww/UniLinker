@@ -18,17 +18,50 @@
         android:layout_height="100dp"
         android:background="@color/secondaryColor"
         android:fontFamily="monospace"
-        android:text="@string/new_user"
+        android:text="Join, Explore, and Engage\n in Your Campus Community"
         android:paddingTop="10dp"
+        android:padding="10dp"
         android:textAlignment="center"
-        android:textSize="30sp"
+        android:textSize="21sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/registerHere"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:fontFamily="monospace"
+        android:text="Register here"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerTitle"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:src="@drawable/logo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/registerHere"
+        app:layout_constraintVertical_bias="0.0">
+    </ImageView>
+
 
     <EditText
         android:id="@+id/editEmail"
@@ -41,7 +74,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registerTitle"
+        app:layout_constraintTop_toBottomOf="@+id/logo"
         app:layout_constraintVertical_bias="0.092"
         android:autofillHints="" />
 
