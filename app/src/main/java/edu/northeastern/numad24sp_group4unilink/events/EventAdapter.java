@@ -66,6 +66,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventHolder>{
         }
 
         String imageUrl = currentItem.getImage();
+        Log.v("Image: ", imageUrl);
 
         if (imageUrl != null && !imageUrl.isEmpty() && holder.imageEvent != null) {
             Glide.with(holder.itemView.getContext())
@@ -73,7 +74,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventHolder>{
                     .placeholder(R.drawable.event) // optional, shows while image is loading
                     .error(R.drawable.error) // optional, shows if cannot load image
                     .into(holder.imageEvent);
-            Log.v("Image: ", imageUrl);
+
         } else {
             // If imageUrl is empty or null, or if ImageView is null, set a default image
             if (holder.imageEvent != null) {

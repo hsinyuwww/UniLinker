@@ -35,7 +35,7 @@ public class EventHolder extends RecyclerView.ViewHolder {
         super(itemView);
         this.EVENTS_TYPE=EVENTS_TYPE;
 
-        imageEvent = itemView.findViewById(R.id.eventImage);
+        imageEvent = itemView.findViewById(R.id.imageEvent);
         title = itemView.findViewById(R.id.textTitle);
         location = itemView.findViewById(R.id.textLocation);
         dateTime = itemView.findViewById(R.id.textDateTime);
