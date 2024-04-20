@@ -57,7 +57,7 @@ When you “attend” an event, you can add it to you google account’s calenda
 
 
 **Special items:**
-Messaging (as recommended by the professor)
+Messaging (as recommended by the professor), 
 Camera for profile picture
 
 
@@ -98,10 +98,11 @@ Messages & chat activity
 [* My commits are on branch dheekksha, code used by teammates and merged to main]
 
 ## Testing credentials:
-test@northeastern.edu
+- test@northeastern.edu , 
 123456
-user1@northeastern.edu
+- user1@northeastern.edu, 
 123456
-user2@northeastern.edu
+- user2@northeastern.edu, 
 123456
-We have Register so you can create your own account as well.
+  
+- We have Register so you can create your own account as well.
