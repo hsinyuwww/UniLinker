@@ -1,13 +1,16 @@
 package edu.northeastern.numad24sp_group4unilink.messages;
 
 
+import static edu.northeastern.numad24sp_group4unilink.BaseActivity.isLoggedInUser;
 import static edu.northeastern.numad24sp_group4unilink.Login.mAuth;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -43,6 +46,7 @@ import edu.northeastern.numad24sp_group4unilink.R;
 import edu.northeastern.numad24sp_group4unilink.databinding.ActivityChatBinding;
 import edu.northeastern.numad24sp_group4unilink.messages.adapter.MyChatRecyclerAdapter;
 import edu.northeastern.numad24sp_group4unilink.messages.bean.ChatBean;
+import edu.northeastern.numad24sp_group4unilink.profile.ProfileActivity;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -138,6 +142,17 @@ public class ChatActivity extends AppCompatActivity {
                         Toast.makeText(ChatActivity.this, "Send Failed!", Toast.LENGTH_SHORT).show();
                     }
                 });
+            }
+        });
+
+        TextView viewProfile = findViewById(R.id.viewProfile);
+        viewProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isLoggedInUser = false;
+                Intent intent = new Intent(v.getContext(), ProfileActivity.class);
+                intent.putExtra("email", sendUserEmail);
+                v.getContext().startActivity(intent);
             }
         });
     }

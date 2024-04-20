@@ -229,7 +229,7 @@ public class ProfileActivity extends BaseActivity {
 
                         // stores the current user's document ID for future use
                         currentUserDocId = document.getId();
-
+                        userID = document.getString("userID");
 
                         if(callback != null){
                             callback.onCallback();
@@ -258,7 +258,7 @@ public class ProfileActivity extends BaseActivity {
         myEventsAdapter = new MyEventsAdapter(this, myEventsList);
         myEventsRecyclerView.setAdapter(myEventsAdapter);
 
-        userDB.collection("posts").whereArrayContains("attendees", currentUserDocId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        userDB.collection("posts").whereArrayContains("attendees", userID).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 myEventsList.clear();
@@ -289,7 +289,7 @@ public class ProfileActivity extends BaseActivity {
         myCommunityAdapter = new MyCommunitiesAdapter(this, myCommunitiesList);
         myCommunityRecyclerView.setAdapter(myCommunityAdapter);
 
-        userDB.collection("communities").whereArrayContains("users", currentUserDocId).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        userDB.collection("communities").whereArrayContains("users", userID).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 myCommunitiesList.clear();
