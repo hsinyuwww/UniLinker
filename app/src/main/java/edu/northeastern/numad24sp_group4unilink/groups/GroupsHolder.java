@@ -20,7 +20,7 @@ public class GroupsHolder extends RecyclerView.ViewHolder {
     public GroupsHolder(@NonNull View itemView, final GroupsInterface listener) {
         super(itemView);
 
-        imageCommunity = itemView.findViewById(R.id.communityImage);
+        imageCommunity = itemView.findViewById(R.id.imageCommunity);
         title = itemView.findViewById(R.id.communityName);
         communityID = itemView.findViewById(R.id.communityID);
         join = itemView.findViewById(R.id.buttonJoin);

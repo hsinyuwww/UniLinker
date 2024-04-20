@@ -1,14 +1,30 @@
 package edu.northeastern.numad24sp_group4unilink;
 
+import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -30,6 +46,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TimeZone;
+import java.util.function.Consumer;
 
 import edu.northeastern.numad24sp_group4unilink.Attendees.AttendeesActivity;
 import edu.northeastern.numad24sp_group4unilink.comments.CommentsActivity;
@@ -39,6 +57,7 @@ import edu.northeastern.numad24sp_group4unilink.events.EventInterface;
 import edu.northeastern.numad24sp_group4unilink.events.EventItem;
 
 public class MainActivity extends BaseActivity {
+    private static final int PERMISSIONS_REQUEST_CALENDAR = 100;
     private ArrayList<EventItem> eventList = new ArrayList<>();
     private RecyclerView recyclerView;
 
@@ -255,7 +274,7 @@ public class MainActivity extends BaseActivity {
                 eventList.get(position).onAttendClick(position);
                 EventItem event = eventList.get(position);
                 String postID = event.getEventID();
-                checkIfAttending(postID);
+                checkIfAttending(postID, position);
                 eventAdapter.notifyItemChanged(position);
 
             }
@@ -302,7 +321,7 @@ public class MainActivity extends BaseActivity {
 
     }
 
-    public void checkIfAttending(String postID){
+    public void checkIfAttending(String postID, Integer position){
         CollectionReference postsRef = db.collection("posts");
         postsRef.document(postID).get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
@@ -324,6 +343,7 @@ public class MainActivity extends BaseActivity {
                         postsRef.document(postID).update("attendees", attendees).addOnSuccessListener(aVoid -> {
                             // Attendee added successfully
                             Toast.makeText(this, "You are now attending the event.", Toast.LENGTH_SHORT).show();
+                            checkCalendarPermission(position);
                         }).addOnFailureListener(e -> {
                             // Failed to update attendees array
                             Toast.makeText(this, "Failed to attend the event. Please try again.", Toast.LENGTH_SHORT).show();
@@ -371,5 +391,164 @@ public class MainActivity extends BaseActivity {
         super.onSaveInstanceState(outState);
 
     }
+
+
+    private void checkCalendarPermission(Integer position) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED ||
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR) ||
+                    ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
+
+                // Explain to the user why we need to read the calendar
+                new AlertDialog.Builder(this)
+                        .setTitle("Permission Needed")
+                        .setMessage("This app needs the Calendar permissions to read and write events.")
+                        .setPositiveButton("OK", (dialog, which) -> requestCalendarPermissions())
+                        .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                        .create().show();
+            } else {
+                // No explanation needed, we can request the permission.
+                requestCalendarPermissions();
+            }
+
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED){
+                addCalendarEvent(position);
+            }
+        } else {
+            // Permission has already been granted
+            addCalendarEvent(position);
+        }
+    }
+
+    private void requestCalendarPermissions() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{Manifest.permission.READ_CALENDAR, Manifest.permission.WRITE_CALENDAR},
+                PERMISSIONS_REQUEST_CALENDAR);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSIONS_REQUEST_CALENDAR) {
+            // If request is cancelled, the result arrays are empty.
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission was granted, do the calendar task you need to do.
+
+
+            } else {
+                // Permission denied, disable the functionality that depends on this permission.
+                Toast.makeText(this, "Event is not added to your calendar. You can still attend the event.", Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void addCalendarEvent(Integer position) {
+        EventItem event = eventList.get(position);
+
+        // Get calendar ID through UI
+        chooseCalendarId(this, calendarId -> {
+            if (calendarId == null) {
+                Toast.makeText(this, "No writable calendar selected", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Parse date and time
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+            long startMillis = 0;
+            long endMillis = 0;
+            try {
+                Date parsedDate = dateFormat.parse(event.getDate() + " " + event.getTime());
+                if (parsedDate != null) {
+                    Calendar beginTime = Calendar.getInstance();
+                    beginTime.setTime(parsedDate);
+
+                    Calendar endTime = (Calendar) beginTime.clone();
+                    endTime.add(Calendar.HOUR_OF_DAY, 1); // Adjust end time as needed
+
+                    startMillis = beginTime.getTimeInMillis();
+                    endMillis = endTime.getTimeInMillis();
+                }
+            } catch (ParseException e) {
+                Toast.makeText(this, "Failed to parse date or time", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Insert event
+            ContentResolver cr = getContentResolver();
+            ContentValues values = new ContentValues();
+            values.put(CalendarContract.Events.DTSTART, startMillis);
+            values.put(CalendarContract.Events.DTEND, endMillis);
+            values.put(CalendarContract.Events.TITLE, event.getTitle());
+            values.put(CalendarContract.Events.DESCRIPTION, event.getDescription());
+            values.put(CalendarContract.Events.CALENDAR_ID, calendarId);
+            values.put(CalendarContract.Events.EVENT_TIMEZONE, TimeZone.getDefault().getID());
+
+            try {
+                Uri uri = cr.insert(CalendarContract.Events.CONTENT_URI, values);
+                long eventID = Long.parseLong(uri.getLastPathSegment());
+                Toast.makeText(this, event.getTitle()+" event added to your calendar ", Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                Toast.makeText(this, "Failed to add event to calendar", Toast.LENGTH_SHORT).show();
+                Log.e("CalendarError", "Failed to insert event into calendar", e);
+            }
+        });
+    }
+
+    private void chooseCalendarId(Activity context, Consumer<Long> onCalendarChosen) {
+        Cursor cursor = null;
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri calendars = CalendarContract.Calendars.CONTENT_URI;
+
+        String[] projection = {
+                CalendarContract.Calendars._ID,
+                CalendarContract.Calendars.CALENDAR_DISPLAY_NAME
+        };
+
+        // Ensure the selection query checks for sufficient access level to the calendar
+        String selection = "(" + CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL + " >= ? )";
+
+
+        String[] selectionArgs = new String[]{
+                Integer.toString(CalendarContract.Calendars.CAL_ACCESS_CONTRIBUTOR)
+        };
+
+        cursor = contentResolver.query(calendars, projection, selection, selectionArgs, null);
+        if (cursor != null) {
+            Log.d("Calendar", "Number of calendars: " + cursor.getCount());
+            ArrayList<String> calendarNames = new ArrayList<>();
+            HashMap<String, Long> calendarMap = new HashMap<>();
+
+            while (cursor.moveToNext()) {
+                long id = cursor.getLong(0);
+                String name = cursor.getString(1);
+                calendarNames.add(name);
+                calendarMap.put(name, id);
+                Log.d("Calendar", "Found calendar: " + name + " with ID: " + id);
+            }
+            cursor.close();
+
+
+            // Now create a dialog for the user to select a calendar
+            // Now create a dialog for the user to select a calendar
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle("Choose a Calendar");
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.select_dialog_singlechoice, calendarNames);
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+            builder.setAdapter(adapter, (dialog, which) -> {
+                String calendarName = adapter.getItem(which);
+                Long calendarId = calendarMap.get(calendarName);
+                onCalendarChosen.accept(calendarId);
+            });
+
+            builder.show();
+        } else {
+            Log.d("Calendar", "Cursor is null");
+        }
+
+    }
+
 
 }
