@@ -64,16 +64,17 @@ Camera for profile picture
 ## Contributions: 
 
 ### **Hsin-Yu Wen:**
-* wen.hsi@northeastern.edu
-* Github: hsinyuwww
-Messages & chat activity
+#### wen.hsi@northeastern.edu
+#### Github: hsinyuwww
+  
+- Messages & chat activity
 - searching users 
 - showing the chat list
 - entering a chat, sending a message, and the real-time update of chat view.
 
 ### **Bini Chandra:**
-* chandra.bi@northeastern.edu
-* Github: Bini-C
+#### chandra.bi@northeastern.edu
+#### Github: Bini-C
 - Register, login, and logout activities/functionalities (Firebase User Authentication)
 - Profile activity, update profile data, and delete profile functionality.
 - Upload profile picture functionality -camera, gallery, remove picture (Firebase Storage)
@@ -81,8 +82,8 @@ Messages & chat activity
 - Added other users' profile viewing functionality
 
 ### **Vinoothna Gangadasu:**
-* gangadasu.v@northeastern.edu
-* Github: Vinoothna99
+#### gangadasu.v@northeastern.edu
+#### Github: Vinoothna99
 - Top and Bottom Navigation Bars in a Base Activity 
 - ⁠Added App Logo
 - ⁠Layout design -Recycler views for Events, Communities, Attendees and Comments
@@ -90,8 +91,8 @@ Messages & chat activity
 - ⁠Implemented calendar intent functionality to add events to google calendar app
 
 ### **Dheekksha Rajesh Babu:** 
-* rajeshbabu.d@northeastern.edu
-* Github: dheekkshaR
+#### rajeshbabu.d@northeastern.edu
+#### Github: dheekkshaR
 - DB schema design for events, comments, communities.
 - Implemented add event with image from firebase storage, edit event, delete event, attend event (add attendee), add comment, view comments, view attendees, create community, filter posts in community, filter posts for author.
 - View event details and google maps intent for location.
