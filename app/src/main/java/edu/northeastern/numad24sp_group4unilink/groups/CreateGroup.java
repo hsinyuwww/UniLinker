@@ -165,8 +165,12 @@ public class CreateGroup extends BaseActivity {
         //String communityName, String imageUrl
         // Create a new community object with the provided details
         Map<String, Object> community = new HashMap<>();
-        community.put("tag", editTextCommunityName.getText().toString().trim());
-        String pic="https://firebasestorage.googleapis.com/v0/b/numad24sp-group4unilink.appspot.com/o/event_pics%2Fcommunity%20copy.jpg?alt=media&token=f0776a03-3328-4db3-9a02-07edf11213bc";
+
+        String name = editTextCommunityName.getText().toString().trim();
+
+        if(!name.isEmpty()){
+        community.put("tag", name);
+        String pic = "https://firebasestorage.googleapis.com/v0/b/numad24sp-group4unilink.appspot.com/o/event_pics%2Fcommunity%20copy.jpg?alt=media&token=f0776a03-3328-4db3-9a02-07edf11213bc";
 
         community.put("picture", pic);
 
@@ -190,5 +194,8 @@ public class CreateGroup extends BaseActivity {
                     Toast.makeText(this, "Failed to create community.", Toast.LENGTH_SHORT).show();
                     Log.e("CreateCommunity", "Error adding community to Firestore", e);
                 });
+    } else{
+            Toast.makeText(this, "Community name cannot be empty.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

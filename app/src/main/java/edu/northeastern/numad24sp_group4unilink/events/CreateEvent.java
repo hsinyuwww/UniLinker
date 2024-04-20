@@ -169,7 +169,7 @@ public class CreateEvent extends BaseActivity {
             // Update UI with user's email address (e.g., set text in a TextView)
             TextView userEmailTextView = findViewById(R.id.textView);
             userEmailTextView.setText("Create post as: " + userEmail);
-            Toast.makeText(this, "User  id:"+userId, Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "User  id:"+userId, Toast.LENGTH_SHORT).show();
         }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -226,34 +226,38 @@ public class CreateEvent extends BaseActivity {
         String picture="https://firebasestorage.googleapis.com/v0/b/numad24sp-group4unilink.appspot.com/o/event_pics%2Fevent.avif?alt=media&token=5a12990b-6d69-4fa4-8dd4-5f89d90848de";
         String tag=selectedCommunity;
 
-        //String eventCreator = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
-        // Assemble the event
-        Map<String, Object> event = new HashMap<>();
-        event.put("title", title);
-        event.put("description",description);
-        event.put("postedDate", postedDate);
-        event.put("tag", tag);
-        event.put("picture", picture);
-        event.put("location", eventLocation);
-        event.put("eventDate", eventDate);
-        event.put("comments", new ArrayList<>());
-        event.put("attendees", new ArrayList<>());
-        event.put("authorId", authorId);
-        eventsRef.add(event)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(this, "Event created successfully!", Toast.LENGTH_SHORT).show();
-                    clearFields();
-                    uploadImage(documentReference.getId());
+        if(!title.isEmpty() && !description.isEmpty() && !eventLocation.isEmpty() && !tag.isEmpty()) {
+            //String eventCreator = Objects.requireNonNull(FirebaseAuth.getInstance().getCurrentUser()).getUid();
+            // Assemble the event
+            Map<String, Object> event = new HashMap<>();
+            event.put("title", title);
+            event.put("description", description);
+            event.put("postedDate", postedDate);
+            event.put("tag", tag);
+            event.put("picture", picture);
+            event.put("location", eventLocation);
+            event.put("eventDate", eventDate);
+            event.put("comments", new ArrayList<>());
+            event.put("attendees", new ArrayList<>());
+            event.put("authorId", authorId);
+            eventsRef.add(event)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(this, "Event created successfully!", Toast.LENGTH_SHORT).show();
+                        clearFields();
+                        uploadImage(documentReference.getId());
 
-                    String newEventId = documentReference.getId();
-                    Toast.makeText(this, "Event id:"+newEventId, Toast.LENGTH_SHORT).show();
+                        String newEventId = documentReference.getId();
+                        Toast.makeText(this, "Event id:" + newEventId, Toast.LENGTH_SHORT).show();
 //                    userRef.document(eventCreator)
 //                            .update("hosting", FieldValue.arrayUnion(newEventId))
 //                            .addOnSuccessListener(void1 -> Log.d(TAG, "Event added to hosting array successfully"))
 //                            .addOnFailureListener(e -> Log.e(TAG, "Error adding event to hosting array", e));
-                    finish();
-                })
-                .addOnFailureListener(e -> Toast.makeText(this, "Failed to create event.", Toast.LENGTH_SHORT).show());
+                        finish();
+                    })
+                    .addOnFailureListener(e -> Toast.makeText(this, "Failed to create event.", Toast.LENGTH_SHORT).show());
+        }else{
+            Toast.makeText(this, "Event title, description, location and community are required.", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void checkPermissionAndPickImage() {
