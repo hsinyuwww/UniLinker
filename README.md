@@ -62,6 +62,7 @@ Camera for profile picture
 
 
 ## Contributions: 
+Meet our team of 4 dedicated women developers! 👧
 
 ### **Hsin-Yu Wen:**
 #### wen.hsi@northeastern.edu
