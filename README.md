@@ -1,4 +1,4 @@
-# Mobile App development Project - Group 4
+# Mobile App development Project
 
 - Dheekksha Rajesh Babu
 - Vinoothna Gangadasu
